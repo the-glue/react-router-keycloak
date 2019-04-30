@@ -1,0 +1,27 @@
+{
+   "name": "@theglue/isc-react-library",
+   "version": "0.0.1",
+   "description": "Integrate the Identity Server Component inside a react app",
+   "main": "dist/auth.js",
+   "dependencies": {
+      "keycloak-js": "^6.0.1"
+   },
+   "scripts": {
+      "build": "rollup -c rollup.config.js -o dist/auth.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+   },
+   "devDependencies": {
+      "@babel/core": "^7.4.4",
+      "@babel/plugin-proposal-class-properties": "^7.4.4",
+      "@babel/preset-react": "7.0.0",
+      "react": "^16.3.1",
+      "react-dom": "^16.3.1",
+      "react-redux": "^6.0.0",
+      "react-router-dom": "^4.3.1",
+      "redux": "^4.0.1",
+      "rollup": "^1.2.2",
+      "rollup-plugin-babel": "^4.3.2",
+      "rollup-plugin-uglify": "^6.0.2",
+      "styled-jsx": "^2.2.6"
+   }
+}
