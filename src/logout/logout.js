@@ -1,25 +1,19 @@
-import React from "react";
+import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import {keycloak} from "../authHelper";
+import { keycloak } from "../keycloak";
 
-class Logout extends React.Component {
+class Logout extends Component {
   constructor(props) {
     super(props);
-    
-    
-  }
-
-  componentDidMount(){
-    const { user } = this.props;
-    logOut(user.isAuthenticated);
+    this.logOut();
+    this.props.userLoggedOut();
   }
 
   logOut = () => {
-    //axios.defaults.headers.common.Authorization = "";
-  
     if (keycloak.authenticated) {
       keycloak.logout().success(() => {
         // TODO: seems this code is never called
+        this.props.userLoggedOut();
       });
     }
   };
@@ -29,4 +23,4 @@ class Logout extends React.Component {
   }
 }
 
-export default Logout;
+export { Logout };

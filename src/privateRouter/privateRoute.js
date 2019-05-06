@@ -1,28 +1,24 @@
 import React from "react";
-import {
-  Route,
-  // Link,
-  Redirect
-} from "react-router-dom";
-import {keycloak} from "../authHelper";
+import { Route, Redirect } from "react-router-dom";
+import { keycloak } from "../keycloak";
 
-const checkLogin = () => {
-  console.log(keycloak)
-  updateToken();
-  return keycloak.authenticated;
-}
-const updateToken = () => {
-  keycloak.updateToken(30).success(refreshed => {
+const updateToken = props => {
+  keycloak.updateToken(3000).success(refreshed => {
     if (refreshed) {
-      //axios.defaults.headers.common.Authorization = `Bearer ${keycloak.token}`;
+      props.userLoggedIn(true, keycloak.token);
     }
   });
+};
+
+const checkLogin = props => {
+  updateToken(props);
+  return keycloak.authenticated;
 };
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      checkLogin() ? (
+      checkLogin(rest) ? (
         <Component {...props} />
       ) : (
         <Redirect
@@ -35,9 +31,5 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     }
   />
 );
-
-/* PrivateRoute.propTypes = {
-  component: PropType.func.isRequired,
-}; */
 
 export { PrivateRoute };
