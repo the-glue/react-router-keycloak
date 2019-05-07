@@ -100,3 +100,7 @@ export function userLoggedOut() {
   };
 }
 ```
+
+# Contribution
+
+Create a pull request for every change. Make sure unit tests are written and working, run lint and rebuild your files.
