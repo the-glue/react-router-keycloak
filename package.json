@@ -3,6 +3,12 @@
   "version": "0.0.1",
   "description": "Integrate the Identity Server Component inside a react app",
   "main": "build/index.js",
+  "repository": {
+    "type": "git",
+    "url": "the-glue/theglue-isc-react-library"
+  },
+  "license": "MIT",
+  "author": "The Glue",
   "dependencies": {
     "keycloak-js": "^6.0.1",
     "react": "^16.3.1",
@@ -38,7 +44,6 @@
     "babel-eslint": "^10.0.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
-    "enzyme-to-json": "^3.3.5",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.16.0",

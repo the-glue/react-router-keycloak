@@ -1,6 +1,5 @@
 import React from "react";
 import { keycloak } from "../keycloak";
-import { Redirect } from "react-router-dom";
 
 class Login extends React.Component {
   componentDidMount() {
