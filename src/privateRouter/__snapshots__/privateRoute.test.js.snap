@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Private Route renders without crashing given the required props 1`] = `
+<Route
+  render={[Function]}
+/>
+`;
