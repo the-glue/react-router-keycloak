@@ -10,7 +10,7 @@ Consists of:
 
 # Installation
 
-`npm install --save @theglue/isc-react-library`
+`npm install --save theglue-isc-react-library`
 
 # Usage
 

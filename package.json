@@ -1,5 +1,5 @@
 {
-  "name": "@theglue/isc-react-library",
+  "name": "theglue-isc-react-library",
   "version": "0.0.1",
   "description": "Integrate the Identity Server Component inside a react app",
   "main": "build/index.js",
