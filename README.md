@@ -1,12 +1,12 @@
 # theglue-isc-react-library
 
-React components to integrate the Identity Service Component.
+React components to integrate the Identity Service Component based on KeyCloak.
 
 Consists of:
 
-- Login component: Logs a user in via Keycloak with username/password.
-- Logout component: Logs a user out
-- Private Route component: Checks the token of the user for private routes and refreshes the token if necessary
+- Login component: authenticate via Keycloak and start a new session
+- Logout component: terminate an ongoing session
+- Private Route component: check the user token for private routes and refreshes the token if necessary
 
 # Installation
 
@@ -14,10 +14,11 @@ Consists of:
 
 # Usage
 
-Mount the login, logout and Private route components anywhere in your application. And assign the following function props to the components:\
-Login: userLoggedIn\
-Logout: userLoggedOut\
-PrivateRoute: userLoggedIn
+Mount the login, logout and Private route components anywhere in your application. Assign the following function props to the components:
+
+- Login: userLoggedIn
+- Logout: userLoggedOut
+- PrivateRoute: userLoggedIn
 
 ```
 import { Login, Logout, PrivateRoute } from "@theglue/isc-react-library/build";
@@ -53,10 +54,11 @@ const mapDispatchToProps = (dispatch) =>{
 
 ```
 
-As you can see the userLoggedIn will return a boolean and a token. This token can be used for further calls to backends. The boolean is a flag that can be stored in a reducer.\
-\
-Example:\
-reducer.js
+As you can see the userLoggedIn will return a boolean and a token. This token can be used for further calls to backends. The boolean is a flag that can be stored in a reducer.
+
+## Examples:
+
+**reducer.js**
 
 ```
 function user(state = { isAuthenticated: false }, action) {
@@ -81,7 +83,7 @@ function user(state = { isAuthenticated: false }, action) {
 }
 ```
 
-actions.js
+**actions.js**
 
 ```
 export function userLoggedIn(loggedIn, token) {
