@@ -3,8 +3,10 @@ import { keycloak } from "../keycloak";
 import { Redirect } from "react-router-dom";
 
 class Login extends React.Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     this.logIn();
+    this.initDone = false;
   }
 
   logIn = () => {
@@ -13,39 +15,36 @@ class Login extends React.Component {
         keycloak
           .init({ onLoad: "login-required", checkLoginIframe: false })
           .success(() => {
+            this.initDone = true;
             this.props.userLoggedIn(true, keycloak.token);
+            console.log("Authenticate success");
           })
           .error(error => {
             console.log(error);
             this.props.userLoggedIn(false, null);
           });
       } catch (e) {
+        console.log(e);
         this.props.userLoggedIn(false, null);
       }
     }
   };
 
   render() {
-    console.log("Authenticated: " + keycloak.authenticated);
-    console.log("isAuthenticated: " + keycloak.isAuthenticated);
-    if (!keycloak.authenticated) {
-      // TODO: Create a meaningfull error page
+    console.log(this.initDone);
+    if (!this.initDone) {
+      console.log("init not done");
+      return <p>Loading...</p>;
+    } else {
+      console.log("init done");
       return (
         <Redirect
           to={{
-            pathname: "/"
+            pathname: this.props.path
           }}
         />
       );
     }
-
-    return (
-      <Redirect
-        to={{
-          pathname: this.props.path
-        }}
-      />
-    );
   }
 }
 

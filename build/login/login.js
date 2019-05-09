@@ -109,21 +109,12 @@ var Login =
   (function(_React$Component) {
     _inherits(Login, _React$Component);
 
-    function Login() {
-      var _getPrototypeOf2;
-
+    function Login(props) {
       var _this;
 
       _classCallCheck(this, Login);
 
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      _this = _possibleConstructorReturn(
-        this,
-        (_getPrototypeOf2 = _getPrototypeOf(Login)).call.apply(_getPrototypeOf2, [this].concat(args))
-      );
+      _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props));
 
       _defineProperty(_assertThisInitialized(_this), "logIn", function() {
         if (!_keycloak.keycloak.authenticated) {
@@ -134,7 +125,11 @@ var Login =
                 checkLoginIframe: false
               })
               .success(function() {
+                _this.initDone = true;
+
                 _this.props.userLoggedIn(true, _keycloak.keycloak.token);
+
+                console.log("Authenticate success");
               })
               .error(function(error) {
                 console.log(error);
@@ -142,41 +137,36 @@ var Login =
                 _this.props.userLoggedIn(false, null);
               });
           } catch (e) {
+            console.log(e);
+
             _this.props.userLoggedIn(false, null);
           }
         }
       });
 
+      _this.logIn();
+
+      _this.initDone = false;
       return _this;
     }
 
     _createClass(Login, [
       {
-        key: "componentDidMount",
-        value: function componentDidMount() {
-          this.logIn();
-        }
-      },
-      {
         key: "render",
         value: function render() {
-          console.log("Authenticated: " + _keycloak.keycloak.authenticated);
-          console.log("isAuthenticated: " + _keycloak.keycloak.isAuthenticated);
+          console.log(this.initDone);
 
-          if (!_keycloak.keycloak.authenticated) {
-            // TODO: Create a meaningfull error page
+          if (!this.initDone) {
+            console.log("init not done");
+            return _react["default"].createElement("p", null, "Loading...");
+          } else {
+            console.log("init done");
             return _react["default"].createElement(_reactRouterDom.Redirect, {
               to: {
-                pathname: "/"
+                pathname: this.props.path
               }
             });
           }
-
-          return _react["default"].createElement(_reactRouterDom.Redirect, {
-            to: {
-              pathname: this.props.path
-            }
-          });
         }
       }
     ]);
