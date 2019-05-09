@@ -9,6 +9,8 @@ var _react = _interopRequireDefault(require("react"));
 
 var _keycloak = require("../keycloak");
 
+var _reactRouterDom = require("react-router-dom");
+
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
@@ -156,7 +158,11 @@ var Login =
       {
         key: "render",
         value: function render() {
-          return _react["default"].createElement("h1", null, "Success!");
+          _react["default"].createElement(_reactRouterDom.Redirect, {
+            to: {
+              pathname: this.props.path
+            }
+          });
         }
       }
     ]);

@@ -1,6 +1,6 @@
 {
   "name": "theglue-isc-react-library",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Integrate the Identity Server Component inside a react app",
   "main": "build/index.js",
   "repository": {
