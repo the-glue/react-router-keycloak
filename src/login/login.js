@@ -17,6 +17,7 @@ class Login extends React.Component {
           .success(() => {
             this.initDone = true;
             this.props.userLoggedIn(true, keycloak.token);
+            this.forceUpdate();
             console.log("Authenticate success");
           })
           .error(error => {

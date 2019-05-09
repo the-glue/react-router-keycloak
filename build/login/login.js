@@ -129,6 +129,8 @@ var Login =
 
                 _this.props.userLoggedIn(true, _keycloak.keycloak.token);
 
+                _this.forceUpdate();
+
                 console.log("Authenticate success");
               })
               .error(function(error) {
