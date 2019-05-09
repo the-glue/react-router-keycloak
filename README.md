@@ -21,7 +21,7 @@ Mount the login, logout and Private route components anywhere in your applicatio
 - PrivateRoute: userLoggedIn
 
 ```
-import { Login, Logout, PrivateRoute } from "@theglue/isc-react-library/build";
+import { Login, Logout, PrivateRoute } from "theglue-isc-react-library";
 
 class App extends Component {
   render() {
