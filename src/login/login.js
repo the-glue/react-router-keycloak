@@ -8,14 +8,15 @@ class Login extends React.Component {
   }
 
   logIn = () => {
-    if (!keycloak.isAuthenticated) {
+    if (!keycloak.authenticated) {
       try {
         keycloak
           .init({ onLoad: "login-required", checkLoginIframe: false })
           .success(() => {
             this.props.userLoggedIn(true, keycloak.token);
           })
-          .error(() => {
+          .error(error => {
+            console.log(error);
             this.props.userLoggedIn(false, null);
           });
       } catch (e) {
@@ -25,7 +26,9 @@ class Login extends React.Component {
   };
 
   render() {
-    if (!keycloak.isAuthenticated) {
+    console.log("Authenticated: " + keycloak.authenticated);
+    console.log("isAuthenticated: " + keycloak.isAuthenticated);
+    if (!keycloak.authenticated) {
       // TODO: Create a meaningfull error page
       return (
         <Redirect

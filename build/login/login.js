@@ -126,7 +126,7 @@ var Login =
       );
 
       _defineProperty(_assertThisInitialized(_this), "logIn", function() {
-        if (!_keycloak.keycloak.isAuthenticated) {
+        if (!_keycloak.keycloak.authenticated) {
           try {
             _keycloak.keycloak
               .init({
@@ -136,7 +136,9 @@ var Login =
               .success(function() {
                 _this.props.userLoggedIn(true, _keycloak.keycloak.token);
               })
-              .error(function() {
+              .error(function(error) {
+                console.log(error);
+
                 _this.props.userLoggedIn(false, null);
               });
           } catch (e) {
@@ -158,6 +160,18 @@ var Login =
       {
         key: "render",
         value: function render() {
+          console.log("Authenticated: " + _keycloak.keycloak.authenticated);
+          console.log("isAuthenticated: " + _keycloak.keycloak.isAuthenticated);
+
+          if (!_keycloak.keycloak.authenticated) {
+            // TODO: Create a meaningfull error page
+            return _react["default"].createElement(_reactRouterDom.Redirect, {
+              to: {
+                pathname: "/"
+              }
+            });
+          }
+
           return _react["default"].createElement(_reactRouterDom.Redirect, {
             to: {
               pathname: this.props.path

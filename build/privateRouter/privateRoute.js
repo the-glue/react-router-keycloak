@@ -62,7 +62,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 }
 
 var updateToken = function updateToken(props) {
-  _keycloak.keycloak.updateToken(3000).success(function(refreshed) {
+  _keycloak.keycloak.updateToken(30).success(function(refreshed) {
     if (refreshed) {
       props.userLoggedIn(true, _keycloak.keycloak.token);
     }
