@@ -25,6 +25,17 @@ class Login extends React.Component {
   };
 
   render() {
+    if (!keycloak.isAuthenticated) {
+      // TODO: Create a meaningfull error page
+      return (
+        <Redirect
+          to={{
+            pathname: "/"
+          }}
+        />
+      );
+    }
+
     return (
       <Redirect
         to={{
