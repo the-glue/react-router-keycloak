@@ -158,7 +158,7 @@ var Login =
       {
         key: "render",
         value: function render() {
-          _react["default"].createElement(_reactRouterDom.Redirect, {
+          return _react["default"].createElement(_reactRouterDom.Redirect, {
             to: {
               pathname: this.props.path
             }

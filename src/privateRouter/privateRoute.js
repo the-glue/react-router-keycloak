@@ -3,7 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import { keycloak } from "../keycloak";
 
 const updateToken = props => {
-  keycloak.updateToken(3000).success(refreshed => {
+  keycloak.updateToken(30).success(refreshed => {
     if (refreshed) {
       props.userLoggedIn(true, keycloak.token);
     }

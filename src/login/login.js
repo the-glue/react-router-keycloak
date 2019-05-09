@@ -25,11 +25,13 @@ class Login extends React.Component {
   };
 
   render() {
-    <Redirect
-      to={{
-        pathname: this.props.path
-      }}
-    />;
+    return (
+      <Redirect
+        to={{
+          pathname: this.props.path
+        }}
+      />
+    );
   }
 }
 
