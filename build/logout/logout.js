@@ -138,7 +138,6 @@ var Logout =
       _defineProperty(_assertThisInitialized(_this), "logOut", function() {
         if (_keycloak.keycloak.authenticated) {
           _keycloak.keycloak.logout().success(function() {
-            // TODO: seems this code is never called
             _this.props.userLoggedOut();
           });
         }

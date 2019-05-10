@@ -7,9 +7,9 @@ exports.Login = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _keycloak = require("../keycloak");
-
 var _reactRouterDom = require("react-router-dom");
+
+var _keycloak = require("../keycloak");
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -114,7 +114,7 @@ var Login =
 
       _classCallCheck(this, Login);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props));
+      _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props)); //log in should occur before the components are rendered.
 
       _defineProperty(_assertThisInitialized(_this), "logIn", function() {
         if (!_keycloak.keycloak.authenticated) {
@@ -127,20 +127,14 @@ var Login =
               .success(function() {
                 _this.initDone = true;
 
-                _this.props.userLoggedIn(true, _keycloak.keycloak.token);
+                _this.props.userLoggedIn(true, _keycloak.keycloak.token); // component is not rerendered on a local variable, force update to rerender this component and to make sure there is a redirect.
 
                 _this.forceUpdate();
-
-                console.log("Authenticate success");
               })
-              .error(function(error) {
-                console.log(error);
-
+              .error(function() {
                 _this.props.userLoggedIn(false, null);
               });
           } catch (e) {
-            console.log(e);
-
             _this.props.userLoggedIn(false, null);
           }
         }
@@ -156,19 +150,19 @@ var Login =
       {
         key: "render",
         value: function render() {
-          console.log(this.initDone);
-
           if (!this.initDone) {
-            console.log("init not done");
+            // fallback to check if initialization of Keycloak is finished.
             return _react["default"].createElement("p", null, "Loading...");
-          } else {
-            console.log("init done");
-            return _react["default"].createElement(_reactRouterDom.Redirect, {
+          }
+
+          return (
+            // redirect to the assigned path in the props
+            _react["default"].createElement(_reactRouterDom.Redirect, {
               to: {
                 pathname: this.props.path
               }
-            });
-          }
+            })
+          );
         }
       }
     ]);

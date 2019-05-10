@@ -16,7 +16,7 @@ Consists of:
 
 Mount the login, logout and Private route components anywhere in your application. Assign the following function props to the components:
 
-- Login: userLoggedIn
+- Login: userLoggedIn, path
 - Logout: userLoggedOut
 - PrivateRoute: userLoggedIn
 
@@ -29,7 +29,7 @@ class App extends Component {
         <Router>
           <div>
               <Switch>
-                <Route path="/log-in" render={() => <Login userLoggedIn={this.props.userLoggedIn} />} />
+                <Route path="/log-in" render={() => <Login userLoggedIn={this.props.userLoggedIn} path="/authenticated-only" />} />
                 <Route path="/log-out" render={() => <Logout userLoggedOut={this.props.userLoggedOut} />} />
                 <Route exact path="/" component={Home} />
                 <PrivateRoute path="/authenticated-only" component={AuthenticatedOnly} userLoggedIn={this.props.userLoggedIn} />
@@ -64,14 +64,12 @@ As you can see the userLoggedIn will return a boolean and a token. This token ca
 function user(state = { isAuthenticated: false }, action) {
   switch (action.type) {
     case USER_LOGGED_IN:
-    console.log(action);
       axios.defaults.headers.common.Authorization = `Bearer ${action.token}`;
       return {
         ...state,
         isAuthenticated: action.isAuthenticated
       };
     case USER_LOGGED_OUT:
-    console.log(action);
       axios.defaults.headers.common.Authorization = "";
       return {
         ...state,
@@ -102,6 +100,14 @@ export function userLoggedOut() {
   };
 }
 ```
+
+# Environment variables
+
+To connect your Keycloak server you need to provide the following variables in your application:
+
+- REACT_APP_KEYCLOAK_URL: Your Keycloak server url
+- REACT_APP_PARAMETER_REALM: The Realn name that you want the user to authenticate.
+- REACT_APP_PARAMETER_CLIENT_ID: The client id were the user will be authenticated.
 
 # Contribution
 

@@ -1,10 +1,11 @@
 import React from "react";
-import { keycloak } from "../keycloak";
 import { Redirect } from "react-router-dom";
+import { keycloak } from "../keycloak";
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
+    //log in should occur before the components are rendered.
     this.logIn();
     this.initDone = false;
   }
@@ -17,35 +18,31 @@ class Login extends React.Component {
           .success(() => {
             this.initDone = true;
             this.props.userLoggedIn(true, keycloak.token);
+            // component is not rerendered on a local variable, force update to rerender this component and to make sure there is a redirect.
             this.forceUpdate();
-            console.log("Authenticate success");
           })
-          .error(error => {
-            console.log(error);
+          .error(() => {
             this.props.userLoggedIn(false, null);
           });
       } catch (e) {
-        console.log(e);
         this.props.userLoggedIn(false, null);
       }
     }
   };
 
   render() {
-    console.log(this.initDone);
     if (!this.initDone) {
-      console.log("init not done");
+      // fallback to check if initialization of Keycloak is finished.
       return <p>Loading...</p>;
-    } else {
-      console.log("init done");
-      return (
-        <Redirect
-          to={{
-            pathname: this.props.path
-          }}
-        />
-      );
     }
+    return (
+      // redirect to the assigned path in the props
+      <Redirect
+        to={{
+          pathname: this.props.path
+        }}
+      />
+    );
   }
 }
 

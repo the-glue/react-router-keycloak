@@ -12,7 +12,6 @@ class Logout extends Component {
   logOut = () => {
     if (keycloak.authenticated) {
       keycloak.logout().success(() => {
-        // TODO: seems this code is never called
         this.props.userLoggedOut();
       });
     }

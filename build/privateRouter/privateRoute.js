@@ -62,7 +62,8 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 }
 
 var updateToken = function updateToken(props) {
-  _keycloak.keycloak.updateToken(30).success(function(refreshed) {
+  // refresh the token if it is about to expire within 5 minutes.
+  _keycloak.keycloak.updateToken(300).success(function(refreshed) {
     if (refreshed) {
       props.userLoggedIn(true, _keycloak.keycloak.token);
     }
