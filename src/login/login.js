@@ -5,7 +5,7 @@ import { keycloak } from "../keycloak";
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    //log in should occur before the components are rendered.
+    // log in should occur before the components are rendered.
     this.logIn();
     this.initDone = false;
   }
@@ -18,7 +18,8 @@ class Login extends React.Component {
           .success(() => {
             this.initDone = true;
             this.props.userLoggedIn(true, keycloak.token);
-            // component is not rerendered on a local variable, force update to rerender this component and to make sure there is a redirect.
+            // component is not rerendered on a local variable,
+            // force update to rerender this component and to make sure there is a redirect.
             this.forceUpdate();
           })
           .error(() => {
