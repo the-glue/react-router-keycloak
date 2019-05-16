@@ -114,7 +114,7 @@ var Login =
 
       _classCallCheck(this, Login);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props)); //log in should occur before the components are rendered.
+      _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props)); // log in should occur before the components are rendered.
 
       _defineProperty(_assertThisInitialized(_this), "logIn", function() {
         if (!_keycloak.keycloak.authenticated) {
@@ -127,7 +127,8 @@ var Login =
               .success(function() {
                 _this.initDone = true;
 
-                _this.props.userLoggedIn(true, _keycloak.keycloak.token); // component is not rerendered on a local variable, force update to rerender this component and to make sure there is a redirect.
+                _this.props.userLoggedIn(true, _keycloak.keycloak.token); // component is not rerendered on a local variable,
+                // force update to rerender this component and to make sure there is a redirect.
 
                 _this.forceUpdate();
               })

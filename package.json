@@ -1,6 +1,6 @@
 {
   "name": "theglue-isc-react-library",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Integrate the Identity Server Component inside a react app",
   "main": "build/index.js",
   "repository": {
@@ -10,14 +10,16 @@
   "license": "MIT",
   "author": "The Glue",
   "dependencies": {
-    "keycloak-js": "^6.0.1",
+    "keycloak-js": "^6.0.1"
+  },
+  "peerDependencies": {
     "react": "^16.3.1",
     "react-router-dom": "^4.3.1"
   },
   "scripts": {
-    "build": "`npm bin`/babel src -d build",
+    "build": "babel src -d build",
     "test": "jest ./src",
-    "lint": "./node_modules/.bin/eslint . --fix"
+    "lint": "eslint . --fix"
   },
   "jest": {
     "setupFilesAfterEnv": [
@@ -50,6 +52,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.13.0",
     "husky": "^1.3.1",
+    "install-peers": "^1.0.3",
     "jest": "^24.8.0",
     "prettier": "^1.16.4",
     "pretty-quick": "^1.10.0",
