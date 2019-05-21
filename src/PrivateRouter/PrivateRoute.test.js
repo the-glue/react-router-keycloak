@@ -1,13 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Login } from './Login';
+import { PrivateRoute } from '../index';
 
-describe('Login', () => {
+describe('Private Route', () => {
   it('renders without crashing given the required props', () => {
-    const props = {
-      userLoggedIn: jest.fn()
-    };
-    const wrapper = shallow(<Login {...props} />);
+    const wrapper = shallow(<PrivateRoute />);
     expect(wrapper).toMatchSnapshot();
   });
 });

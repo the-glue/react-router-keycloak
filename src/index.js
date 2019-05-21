@@ -1,6 +1,6 @@
-import Login from './login/Login';
-import Logout from './logout/Logout';
-import PrivateRoute from './privateRouter/PrivateRoute';
+import Login from './Login/Login';
+import Logout from './Logout/Logout';
+import PrivateRoute from './PrivateRouter/PrivateRoute';
 import KeycloakProvider from './KeycloakProvider';
 
 export { Login, Logout, PrivateRoute };

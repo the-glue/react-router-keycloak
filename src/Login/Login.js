@@ -17,7 +17,7 @@ class Login extends React.Component {
       try {
         keycloak
           .init({ onLoad: 'login-required', checkLoginIframe: false })
-          .success((...args) => {
+          .success(() => {
             this.setState({ isLoading: false });
             this.props.onSuccess(keycloak.token);
           })
