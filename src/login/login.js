@@ -1,38 +1,36 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import { keycloak } from "../keycloak";
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import KeycloakContext from '../KeycloakContext';
+import { keycloak } from '../keycloak';
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    // log in should occur before the components are rendered.
+  static contextType = KeycloakContext;
+  state = { isLoading: true };
+
+  componentDidMount() {
     this.logIn();
-    this.initDone = false;
   }
 
   logIn = () => {
     if (!keycloak.authenticated) {
       try {
         keycloak
-          .init({ onLoad: "login-required", checkLoginIframe: false })
-          .success(() => {
-            this.initDone = true;
-            this.props.userLoggedIn(true, keycloak.token);
-            // component is not rerendered on a local variable,
-            // force update to rerender this component and to make sure there is a redirect.
-            this.forceUpdate();
+          .init({ onLoad: 'login-required', checkLoginIframe: false })
+          .success((...args) => {
+            this.setState({ isLoading: false });
+            this.props.onSuccess(keycloak.token);
           })
           .error(() => {
-            this.props.userLoggedIn(false, null);
+            this.props.onFailure('there was an error with initializing keycloak, please check your credentials');
           });
       } catch (e) {
-        this.props.userLoggedIn(false, null);
+        this.props.onSuccess(e);
       }
     }
   };
 
   render() {
-    if (!this.initDone) {
+    if (!keycloak.token && this.state.isLoading) {
       // fallback to check if initialization of Keycloak is finished.
       return <p>Loading...</p>;
     }
@@ -40,11 +38,11 @@ class Login extends React.Component {
       // redirect to the assigned path in the props
       <Redirect
         to={{
-          pathname: this.props.path
+          pathname: this.props.redirectTo
         }}
       />
     );
   }
 }
 
-export { Login };
+export default Login;

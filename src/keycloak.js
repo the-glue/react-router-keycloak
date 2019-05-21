@@ -1,15 +1,17 @@
-import Keycloak from "keycloak-js";
+import Keycloak from 'keycloak-js';
 
 // Setup client
-
-const KEYCLOACK_URL = process.env.REACT_APP_KEYCLOAK_URL;
-const REALM = process.env.REACT_APP_PARAMETER_REALM;
-const CLIENT_ID = process.env.REACT_APP_PARAMETER_CLIENT_ID;
-
-const keycloak = new Keycloak({
-  url: `${KEYCLOACK_URL}/auth/`,
-  realm: REALM,
-  clientId: CLIENT_ID
-});
-
-export { keycloak };
+export let keycloak;
+export function keycloakConfig(keycloakUrl, realm, clientId) {
+  const KEYCLOACK_URL = keycloakUrl;
+  const REALM = realm;
+  const CLIENT_ID = clientId;
+  console.log('we are getting in keycloak init');
+  if (!keycloak) {
+    keycloak = new Keycloak({
+      url: `${KEYCLOACK_URL}/auth/`,
+      realm: REALM,
+      clientId: CLIENT_ID
+    });
+  }
+}

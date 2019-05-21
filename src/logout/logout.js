@@ -1,25 +1,26 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
-import { keycloak } from "../keycloak";
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import KeycloakContext from '../KeycloakContext';
+import { keycloak } from '../keycloak';
 
 class Logout extends Component {
-  constructor(props) {
-    super(props);
+  static contextType = KeycloakContext;
+  componentDidMount() {
     this.logOut();
-    this.props.userLoggedOut();
+    this.props.onSuccess();
   }
 
   logOut = () => {
     if (keycloak.authenticated) {
       keycloak.logout().success(() => {
-        this.props.userLoggedOut();
+        this.props.onSuccess();
       });
     }
   };
 
   render() {
-    return <Redirect to="/" />;
+    return <Redirect to={this.props.redirectTo} />;
   }
 }
 
-export { Logout };
+export default Logout;

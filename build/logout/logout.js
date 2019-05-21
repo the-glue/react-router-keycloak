@@ -1,15 +1,21 @@
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
-exports.Logout = void 0;
+exports['default'] = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var _react = _interopRequireWildcard(require('react'));
 
-var _reactRouterDom = require("react-router-dom");
+var _reactRouterDom = require('react-router-dom');
 
-var _keycloak = require("../keycloak");
+var _KeycloakContext = _interopRequireDefault(require('../KeycloakContext'));
+
+var _keycloak = require('../keycloak');
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 function _interopRequireWildcard(obj) {
   if (obj && obj.__esModule) {
@@ -29,20 +35,20 @@ function _interopRequireWildcard(obj) {
         }
       }
     }
-    newObj["default"] = obj;
+    newObj['default'] = obj;
     return newObj;
   }
 }
 
 function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+  if (typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol') {
     _typeof = function _typeof(obj) {
       return typeof obj;
     };
   } else {
     _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype
-        ? "symbol"
+      return obj && typeof Symbol === 'function' && obj.constructor === Symbol && obj !== Symbol.prototype
+        ? 'symbol'
         : typeof obj;
     };
   }
@@ -51,7 +57,7 @@ function _typeof(obj) {
 
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
+    throw new TypeError('Cannot call a class as a function');
   }
 }
 
@@ -60,7 +66,7 @@ function _defineProperties(target, props) {
     var descriptor = props[i];
     descriptor.enumerable = descriptor.enumerable || false;
     descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
+    if ('value' in descriptor) descriptor.writable = true;
     Object.defineProperty(target, descriptor.key, descriptor);
   }
 }
@@ -72,7 +78,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 
 function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+  if (call && (_typeof(call) === 'object' || typeof call === 'function')) {
     return call;
   }
   return _assertThisInitialized(self);
@@ -95,8 +101,8 @@ function _assertThisInitialized(self) {
 }
 
 function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
+  if (typeof superClass !== 'function' && superClass !== null) {
+    throw new TypeError('Super expression must either be null or a function');
   }
   subClass.prototype = Object.create(superClass && superClass.prototype, {
     constructor: { value: subClass, writable: true, configurable: true }
@@ -128,34 +134,46 @@ var Logout =
   (function(_Component) {
     _inherits(Logout, _Component);
 
-    function Logout(props) {
+    function Logout() {
+      var _getPrototypeOf2;
+
       var _this;
 
       _classCallCheck(this, Logout);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Logout).call(this, props));
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
 
-      _defineProperty(_assertThisInitialized(_this), "logOut", function() {
+      _this = _possibleConstructorReturn(
+        this,
+        (_getPrototypeOf2 = _getPrototypeOf(Logout)).call.apply(_getPrototypeOf2, [this].concat(args))
+      );
+
+      _defineProperty(_assertThisInitialized(_this), 'logOut', function() {
         if (_keycloak.keycloak.authenticated) {
           _keycloak.keycloak.logout().success(function() {
-            _this.props.userLoggedOut();
+            _this.props.onSuccess();
           });
         }
       });
-
-      _this.logOut();
-
-      _this.props.userLoggedOut();
 
       return _this;
     }
 
     _createClass(Logout, [
       {
-        key: "render",
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+          this.logOut();
+          this.props.onSuccess();
+        }
+      },
+      {
+        key: 'render',
         value: function render() {
-          return _react["default"].createElement(_reactRouterDom.Redirect, {
-            to: "/"
+          return _react['default'].createElement(_reactRouterDom.Redirect, {
+            to: this.props.redirectTo
           });
         }
       }
@@ -164,4 +182,7 @@ var Logout =
     return Logout;
   })(_react.Component);
 
-exports.Logout = Logout;
+_defineProperty(Logout, 'contextType', _KeycloakContext['default']);
+
+var _default = Logout;
+exports['default'] = _default;
