@@ -5,6 +5,7 @@ import { keycloak } from '../keycloak';
 
 class Login extends React.Component {
   static contextType = KeycloakContext;
+
   state = { isLoading: true };
 
   componentDidMount() {

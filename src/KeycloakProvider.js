@@ -12,6 +12,7 @@ class KeycloakProvider extends React.Component {
     clientId: PropTypes.string.isRequired,
     onRefresh: PropTypes.func.isRequired
   };
+
   constructor(props) {
     super(props);
     keycloakConfig(this.props.keycloakUrl, this.props.realm, this.props.clientId);

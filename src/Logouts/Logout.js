@@ -5,6 +5,7 @@ import { keycloak } from '../keycloak';
 
 class Logout extends Component {
   static contextType = KeycloakContext;
+
   componentDidMount() {
     this.logOut();
     this.props.onSuccess();
