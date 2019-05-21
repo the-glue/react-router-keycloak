@@ -3,6 +3,12 @@
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+Object.defineProperty(exports, 'default', {
+  enumerable: true,
+  get: function get() {
+    return _KeycloakProvider['default'];
+  }
+});
 Object.defineProperty(exports, 'Login', {
   enumerable: true,
   get: function get() {
@@ -21,19 +27,29 @@ Object.defineProperty(exports, 'PrivateRoute', {
     return _PrivateRoute['default'];
   }
 });
-exports['default'] = void 0;
-
-var _Login = _interopRequireDefault(require('./login/Login'));
-
-var _Logout = _interopRequireDefault(require('./logout/Logout'));
-
-var _PrivateRoute = _interopRequireDefault(require('./privateRouter/PrivateRoute'));
+Object.defineProperty(exports, 'configureKeycloak', {
+  enumerable: true,
+  get: function get() {
+    return _keycloak.configureKeycloak;
+  }
+});
+Object.defineProperty(exports, 'getKeycloak', {
+  enumerable: true,
+  get: function get() {
+    return _keycloak.getKeycloak;
+  }
+});
 
 var _KeycloakProvider = _interopRequireDefault(require('./KeycloakProvider'));
+
+var _Login = _interopRequireDefault(require('./Login'));
+
+var _Logout = _interopRequireDefault(require('./Logout'));
+
+var _PrivateRoute = _interopRequireDefault(require('./PrivateRoute'));
+
+var _keycloak = require('./keycloak');
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
-
-var _default = _KeycloakProvider['default'];
-exports['default'] = _default;

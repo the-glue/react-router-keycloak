@@ -63,10 +63,9 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   return target;
 }
 
-var keycloak = (0, _keycloak.getKeycloak)();
-
 var updateToken = function updateToken(onRefresh) {
-  // refresh the token if it is about to expire within 5 minutes.
+  var keycloak = (0, _keycloak.getKeycloak)(); // refresh the token if it is about to expire within 5 minutes.
+
   keycloak.updateToken(300).success(function(refreshed) {
     if (refreshed) {
       onRefresh(keycloak.token);
@@ -75,6 +74,7 @@ var updateToken = function updateToken(onRefresh) {
 };
 
 var checkLogin = function checkLogin(onRefresh) {
+  var keycloak = (0, _keycloak.getKeycloak)();
   updateToken(onRefresh);
   return keycloak.authenticated;
 };

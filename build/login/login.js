@@ -132,9 +132,11 @@ var Login =
       });
 
       _defineProperty(_assertThisInitialized(_this), 'logIn', function() {
-        if (!_keycloak.keycloak.authenticated) {
+        var keycloak = (0, _keycloak.getKeycloak)();
+
+        if (!keycloak.authenticated) {
           try {
-            _keycloak.keycloak
+            keycloak
               .init({
                 onLoad: 'login-required',
                 checkLoginIframe: false
@@ -144,13 +146,13 @@ var Login =
                   isLoading: false
                 });
 
-                _this.props.onSuccess(_keycloak.keycloak.token);
+                _this.props.onSuccess(keycloak.token);
               })
               .error(function() {
                 _this.props.onFailure('there was an error with initializing keycloak, please check your credentials');
               });
           } catch (e) {
-            _this.props.onSuccess(e);
+            _this.props.onFailure(e);
           }
         }
       });
@@ -168,7 +170,9 @@ var Login =
       {
         key: 'render',
         value: function render() {
-          if (!_keycloak.keycloak.token && this.state.isLoading) {
+          var keycloak = (0, _keycloak.getKeycloak)();
+
+          if (!keycloak.token && this.state.isLoading) {
             // fallback to check if initialization of Keycloak is finished.
             return _react['default'].createElement('p', null, 'Loading...');
           }

@@ -1,8 +1,8 @@
 import Keycloak from 'keycloak-js';
 
 // Setup client
-export let keycloak;
-export function keycloakConfig(keycloakUrl, realm, clientId) {
+let keycloak;
+export function configureKeycloak(keycloakUrl, realm, clientId) {
   const KEYCLOACK_URL = keycloakUrl;
   const REALM = realm;
   const CLIENT_ID = clientId;
@@ -13,4 +13,11 @@ export function keycloakConfig(keycloakUrl, realm, clientId) {
       clientId: CLIENT_ID
     });
   }
+}
+
+export function getKeycloak() {
+  if (!keycloak) {
+    throw new Error('Please configure keycloak first');
+  }
+  return keycloak;
 }

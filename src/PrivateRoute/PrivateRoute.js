@@ -1,9 +1,10 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import KeycloakContext from '../KeycloakContext';
-import { keycloak } from '../keycloak';
+import { getKeycloak } from '../keycloak';
 
 const updateToken = onRefresh => {
+  const keycloak = getKeycloak();
   // refresh the token if it is about to expire within 5 minutes.
   keycloak.updateToken(300).success(refreshed => {
     if (refreshed) {
@@ -13,6 +14,7 @@ const updateToken = onRefresh => {
 };
 
 const checkLogin = onRefresh => {
+  const keycloak = getKeycloak();
   updateToken(onRefresh);
   return keycloak.authenticated;
 };

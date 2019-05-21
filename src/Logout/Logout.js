@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import KeycloakContext from '../KeycloakContext';
-import { keycloak } from '../keycloak';
+import { getKeycloak } from '../keycloak';
 
 class Logout extends Component {
   static contextType = KeycloakContext;
@@ -12,6 +12,7 @@ class Logout extends Component {
   }
 
   logOut = () => {
+    const keycloak = getKeycloak();
     if (keycloak.authenticated) {
       keycloak.logout().success(() => {
         this.props.onSuccess();

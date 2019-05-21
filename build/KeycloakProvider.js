@@ -9,8 +9,6 @@ var _react = _interopRequireDefault(require('react'));
 
 var _propTypes = _interopRequireDefault(require('prop-types'));
 
-var _keycloak = require('./keycloak');
-
 var _KeycloakContext = _interopRequireDefault(require('./KeycloakContext'));
 
 function _interopRequireDefault(obj) {
@@ -111,14 +109,10 @@ var KeycloakProvider =
   (function(_React$Component) {
     _inherits(KeycloakProvider, _React$Component);
 
-    function KeycloakProvider(props) {
-      var _this;
-
+    function KeycloakProvider() {
       _classCallCheck(this, KeycloakProvider);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(KeycloakProvider).call(this, props));
-      (0, _keycloak.keycloakConfig)(_this.props.keycloakUrl, _this.props.realm, _this.props.clientId);
-      return _this;
+      return _possibleConstructorReturn(this, _getPrototypeOf(KeycloakProvider).apply(this, arguments));
     }
 
     _createClass(KeycloakProvider, [
@@ -150,9 +144,6 @@ var KeycloakProvider =
 _defineProperty(KeycloakProvider, 'propTypes', {
   loginPath: _propTypes['default'].string.isRequired,
   logoutPath: _propTypes['default'].string.isRequired,
-  keycloakUrl: _propTypes['default'].string.isRequired,
-  realm: _propTypes['default'].string.isRequired,
-  clientId: _propTypes['default'].string.isRequired,
   onRefresh: _propTypes['default'].func.isRequired
 });
 
