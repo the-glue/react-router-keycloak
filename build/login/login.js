@@ -144,8 +144,6 @@ var Login =
                   isLoading: false
                 });
 
-                console.log(_keycloak.keycloak.token);
-
                 _this.props.onSuccess(_keycloak.keycloak.token);
               })
               .error(function() {
@@ -164,7 +162,6 @@ var Login =
       {
         key: 'componentDidMount',
         value: function componentDidMount() {
-          console.log(this.context);
           this.logIn();
         }
       },

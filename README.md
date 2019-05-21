@@ -14,11 +14,21 @@ Consists of:
 
 # Usage
 
+You'll need to add a provider around your application that will pass the context to the other components:
+
+```
+import KeycloakProvider from "theglue-isc-react-library""
+
+<KeycloakProvider loginPath="LOGIN_PATH" logoutPath="LOGOUT_PATH" keycloakUrl="URL_TO_YOUR_KEYCLOAK_LOCATION" realm="YOUR_REALM" clientId="YOUR_CLIENT_ID" onRefresh="FUNCTION_TO_GET_REFRESHED_TOKEN">
+<App/>
+</KeycloakProvider>
+```
+
 Mount the login, logout and Private route components anywhere in your application. Assign the following function props to the components:
 
-- Login: userLoggedIn, path
-- Logout: userLoggedOut
-- PrivateRoute: userLoggedIn
+- Login: onSuccess, onFailure, redirectTo
+- Logout: onSuccess, redirectTo
+- PrivateRoute:
 
 ```
 import { Login, Logout, PrivateRoute } from "theglue-isc-react-library";
@@ -100,14 +110,6 @@ export function userLoggedOut() {
   };
 }
 ```
-
-# Environment variables
-
-To connect your Keycloak server you need to provide the following variables in your application:
-
-- REACT_APP_KEYCLOAK_URL: Your Keycloak server url
-- REACT_APP_PARAMETER_REALM: The Realn name that you want the user to authenticate.
-- REACT_APP_PARAMETER_CLIENT_ID: The client id were the user will be authenticated.
 
 # Contribution
 

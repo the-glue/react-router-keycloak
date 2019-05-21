@@ -24,7 +24,7 @@ class Login extends React.Component {
             this.props.onFailure('there was an error with initializing keycloak, please check your credentials');
           });
       } catch (e) {
-        this.props.onSuccess(e);
+        this.props.onFailure(e);
       }
     }
   };
