@@ -1,11 +1,19 @@
 language: node_js
 node_js:
   - stable
-deploy:
-  provider: npm
-  email: wouter.wouters@theglue.com
-  api_key:
-    secure: GX7wDdx328mjsL8JJ1UsDbBZVuC83uUoECl0v7ZuarkLv/q1MicJGR87TaHPP7s4BfQ508UNJepZhNTif+S90wI8j4vkNRCgue2dXHqnTFr8vxZlxhX28qgsTcz8GSt6dJwCbXv4FLxavvay1sXo4Cq6AUgafkfXMxgcDaqBb8GdiWDwEd+4HkavQVOQASsNNfyLWY0/aWhU+isivF0MFSuLt/gl7ivquwsLlUXVnki+liRKvJKqx1yXfVsf6yUK7Sbmq/MUIoF7AqSoVsu8hniG0p+pB9b1DJupbEibnOHulBJNYh8itl5MP88Uuihi9oskWfWtgKk+bV8MqFB+ETkPoDNV+xDLPiO7OlsHc8wbeZOjd3z+CxL8sw9GJFGVftYSO0GGzXro5y4KP7tGhu+mOU6Lj8RAOniciq795oX1t4xR/JdCwqWcu6N/0TOcF3ZF2K1PcG37p7sRDyteJ4LfaPvQOphepDdcsfmLVZhjgNicNZTcmNmWrfC6H7IeYgPLeLh7oHtZY4GMRgWlVciPqI244kTh2h1AVQPIqfTiTXPxLEWGNGzm4NF2vHiEbKXs7G4KmRIKXoU1ZK6k3gRn8bI1s6C2ZEE9oR+eNOaXSwGZ005bQec77jxKiV85M/41tKZUncTQFs9SYMaGjkywPqYCSKDPeLqIfPZ3k2k=
-  on:
-    tags: true
-    repo: the-glue/react-router-keycloak
+jobs:
+  include:
+    - stage: install
+      script: yarn install
+      skip_cleanup: true
+    - stage: test
+      script: yarn test
+      skip_cleanup: true
+    - stage: release
+      node_js: lts/*
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - yarn semantic-release
+      if: branch = master

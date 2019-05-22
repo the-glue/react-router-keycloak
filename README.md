@@ -1,4 +1,4 @@
-# theglue-isc-react-library
+# react-router-keycloak
 
 React components to integrate the Identity Service Component based on KeyCloak.
 
@@ -10,14 +10,14 @@ Consists of:
 
 # Installation
 
-`npm install --save theglue-isc-react-library`
+`npm install --save react-router-keycloak`
 
 # Usage
 
 You'll need to add a provider around your application that will pass the context to the other components:
 
 ```
-import KeycloakProvider from "theglue-isc-react-library""
+import KeycloakProvider from "react-router-keycloak"
 
 <KeycloakProvider loginPath="LOGIN_PATH" logoutPath="LOGOUT_PATH" keycloakUrl="URL_TO_YOUR_KEYCLOAK_LOCATION" realm="YOUR_REALM" clientId="YOUR_CLIENT_ID" onRefresh="FUNCTION_TO_GET_REFRESHED_TOKEN">
 <App/>
@@ -31,7 +31,7 @@ Mount the login, logout and Private route components anywhere in your applicatio
 - PrivateRoute:
 
 ```
-import { Login, Logout, PrivateRoute } from "theglue-isc-react-library";
+import { Login, Logout, PrivateRoute } from "react-router-keycloak";
 
 class App extends Component {
   render() {
