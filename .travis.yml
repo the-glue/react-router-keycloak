@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+- stable
+cache: yarn
+install: yarn
+script:
+- yarn lint
+- yarn test
+before_deploy:
+- yarn version
+- yarn run build
+deploy:
+- provider: releases
+  api_key:
+    secure: KZ7Nc8IV1e9xTdhycsSRmN7H1JMNZjXzV0fPxDzI5XDscCbiJCQqtMVXxJgVqeJIzRj7FfofVf14LN9hHyJ8PEdbajRnV0XiqjULV1FT+HpGfynMamnqH4dJxfyfpGFJXeLKHwvLmogmbdiifaA42vgv5JUrfPbwqPwEDn7CV3mD/t3azSjF1Dx5BikVag9WjnqxHqR/kmPnMmdd5ZDGa58Sy/8PviV+ezoSfGSJ09G/FDxWhMdChaA77OQ9vEeqgOq1xYOCuGxfFAGl/RMX4GVi4cpEwP59GZ/zPCUwOOP82/KDzeavBD7zFjMLyLgDemepHkD2l+NKdjrnK2VAocsyMHfVw2n97D9ReLw8pR1t2bg501TJT8D5Xa6TrM5cUodeOaSuXomdwuIiRsr9eWdYpsxcO0tiI7XWJW5FGZL/Ui9rCbbuNc6E+asNYsapYXLvR469/fjLMK33ULJhczT4QklgivozWVVdh9P37y+EfJjQPlv4nUeKd20PJ/xYpDXy0ax3oS8FR6LIwJlAZodZoi5G7/YH/zJhFY5SNAmUZSuMfYhLPHu8uEPAwxczLF+42eJd6ODHXbM3/6j2FTsmHg8ktXFmyZ5w/lourQ+ZggDe3XuGEXF86cz0BPNvlHAfB0EGqlVAOvGo5aTCR/9wzYVz9DrNYbdwmKPgwIg=
+  file: "./build"
+  on:
+    repo: the-glue/react-router-keycloak
+    tags: true
+
