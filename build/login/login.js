@@ -175,9 +175,11 @@ var Login =
 
           if (!keycloak.token && this.state.isLoading) {
             // fallback to check if initialization of Keycloak is finished.
-            return {
-              children: children
-            };
+            if (children) {
+              return children;
+            }
+
+            return _react['default'].createElement('div', null, 'Loading...');
           }
 
           return (

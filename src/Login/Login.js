@@ -36,7 +36,11 @@ class Login extends React.Component {
     const { children } = this.props;
     if (!keycloak.token && this.state.isLoading) {
       // fallback to check if initialization of Keycloak is finished.
-      return { children };
+      if (children) {
+        return children;
+      }
+
+      return <div>Loading...</div>;
     }
     return (
       // redirect to the assigned path in the props
