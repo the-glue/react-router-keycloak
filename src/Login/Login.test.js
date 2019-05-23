@@ -1,11 +1,11 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { Login } from '../index';
-import { configureKeycloak } from '../keycloak';
+import { configureKeycloak } from '../keycloak/keycloak';
 
 describe('Login', () => {
   beforeAll(() => {
-    configureKeycloak();
+    configureKeycloak('dummy url', 'dummy realm', 'dummy id');
   });
   it('renders without crashing given the required props', () => {
     const props = {

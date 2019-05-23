@@ -3,14 +3,20 @@ import Keycloak from 'keycloak-js';
 // Setup client
 let keycloak;
 export function configureKeycloak(keycloakUrl, realm, clientId) {
-  const KEYCLOACK_URL = keycloakUrl;
-  const REALM = realm;
-  const CLIENT_ID = clientId;
+  if (!keycloakUrl) {
+    throw new Error('There is no Keycloak url configured');
+  }
+  if (!realm) {
+    throw new Error('There is no realm configured');
+  }
+  if (!clientId) {
+    throw new Error('There is no client id configured');
+  }
   if (!keycloak) {
     keycloak = new Keycloak({
-      url: `${KEYCLOACK_URL}/auth/`,
-      realm: REALM,
-      clientId: CLIENT_ID
+      url: `${keycloakUrl}/auth/`,
+      realm: realm,
+      clientId: clientId
     });
   }
 }

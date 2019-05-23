@@ -40,7 +40,7 @@ Object.defineProperty(exports, 'getKeycloak', {
   }
 });
 
-var _KeycloakProvider = _interopRequireDefault(require('./KeycloakProvider'));
+var _KeycloakProvider = _interopRequireDefault(require('./keycloak/KeycloakProvider'));
 
 var _Login = _interopRequireDefault(require('./Login'));
 
@@ -48,7 +48,7 @@ var _Logout = _interopRequireDefault(require('./Logout'));
 
 var _PrivateRoute = _interopRequireDefault(require('./PrivateRoute'));
 
-var _keycloak = require('./keycloak');
+var _keycloak = require('./keycloak/keycloak');
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };

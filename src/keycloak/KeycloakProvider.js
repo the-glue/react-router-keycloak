@@ -10,12 +10,8 @@ class KeycloakProvider extends React.Component {
   };
 
   render() {
-    const { loginPath, logoutPath, onRefresh } = this.props;
-    return (
-      <KeycloakContext.Provider value={{ loginPath, logoutPath, onRefresh }}>
-        {this.props.children}
-      </KeycloakContext.Provider>
-    );
+    const { loginPath, logoutPath, onRefresh, children } = this.props;
+    return <KeycloakContext.Provider value={{ loginPath, logoutPath, onRefresh }}>{children}</KeycloakContext.Provider>;
   }
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import KeycloakContext from '../KeycloakContext';
-import { getKeycloak } from '../keycloak';
+import KeycloakContext from '../keycloak/KeycloakContext';
+import { getKeycloak } from '../keycloak/keycloak';
 
 class Login extends React.Component {
   static contextType = KeycloakContext;
@@ -33,9 +33,10 @@ class Login extends React.Component {
 
   render() {
     const keycloak = getKeycloak();
+    const { children } = this.props;
     if (!keycloak.token && this.state.isLoading) {
       // fallback to check if initialization of Keycloak is finished.
-      return <p>Loading...</p>;
+      return { children };
     }
     return (
       // redirect to the assigned path in the props

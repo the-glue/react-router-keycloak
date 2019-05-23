@@ -9,9 +9,9 @@ var _react = _interopRequireDefault(require('react'));
 
 var _reactRouterDom = require('react-router-dom');
 
-var _KeycloakContext = _interopRequireDefault(require('../KeycloakContext'));
+var _KeycloakContext = _interopRequireDefault(require('../keycloak/KeycloakContext'));
 
-var _keycloak = require('../keycloak');
+var _keycloak = require('../keycloak/keycloak');
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };

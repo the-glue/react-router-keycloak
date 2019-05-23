@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import KeycloakContext from '../KeycloakContext';
-import { getKeycloak } from '../keycloak';
+import KeycloakContext from '../keycloak/KeycloakContext';
+import { getKeycloak } from '../keycloak/keycloak';
 
 const updateToken = onRefresh => {
   const keycloak = getKeycloak();

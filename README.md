@@ -17,9 +17,11 @@ Consists of:
 You'll need to add a provider around your application that will pass the context to the other components:
 
 ```
-import KeycloakProvider from "react-router-keycloak"
+import KeycloakProvider, {configureKeycloak} from "react-router-keycloak"
 
-<KeycloakProvider loginPath="LOGIN_PATH" logoutPath="LOGOUT_PATH" keycloakUrl="URL_TO_YOUR_KEYCLOAK_LOCATION" realm="YOUR_REALM" clientId="YOUR_CLIENT_ID" onRefresh="FUNCTION_TO_GET_REFRESHED_TOKEN">
+configureKeycloak(KEYCLOAK_URL, REALM, CLIENT_ID);
+
+<KeycloakProvider loginPath="LOGIN_PATH" logoutPath="LOGOUT_PATH" onRefresh="FUNCTION_TO_GET_REFRESHED_TOKEN">
 <App/>
 </KeycloakProvider>
 ```

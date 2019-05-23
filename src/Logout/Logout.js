@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import KeycloakContext from '../KeycloakContext';
-import { getKeycloak } from '../keycloak';
+import KeycloakContext from '../keycloak/KeycloakContext';
+import { getKeycloak } from '../keycloak/keycloak';
 
 class Logout extends Component {
   static contextType = KeycloakContext;
