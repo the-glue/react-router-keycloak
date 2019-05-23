@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import renderer from 'react-test-renderer';
 import { Login } from '../index';
 import { configureKeycloak } from '../keycloak/keycloak';
 
@@ -12,7 +12,7 @@ describe('Login', () => {
       onSuccess: jest.fn(),
       onFailure: jest.fn()
     };
-    const wrapper = shallow(<Login {...props} />);
+    const wrapper = renderer.create(<Login {...props} />).toJSON();
     expect(wrapper).toMatchSnapshot();
   });
 });
