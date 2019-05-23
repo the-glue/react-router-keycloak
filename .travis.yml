@@ -7,7 +7,7 @@ jobs:
       script: yarn install
       skip_cleanup: true
     - stage: test
-      script: yarn test
+      script: yarn test --ci
       skip_cleanup: true
     - stage: release
       node_js: lts/*
