@@ -1,7 +1,7 @@
 import Keycloak from 'keycloak-js';
 
 // Setup client
-let keycloak;
+export let keycloak;
 export function configureKeycloak(keycloakUrl, realm, clientId) {
   if (!keycloakUrl) {
     throw new Error('There is no Keycloak url configured');

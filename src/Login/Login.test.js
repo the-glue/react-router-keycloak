@@ -31,20 +31,18 @@ describe('Login', () => {
       .toJSON();
     expect(wrapper).toMatchSnapshot();
   });
-
+  //todo make this work
   /*it('call onSuccess', () => {
     const props = {
       onSuccess: jest.fn(),
       onFailure: jest.fn()
     };
-    const p = Promise.resolve(props.onSuccess);
     const keycloak = {
-      init: jest.fn(() => p),
+      init: jest.fn(),
       authenticated: false,
       token: "token"
     }
-    
-    getKeycloak.mockImplementation(() => Promise.resolve(keycloak));
+   //const result = keycloak.init(() => { return {success: jest.fn((callback) => callback) }});
     
     const wrapper = renderer.create(<MemoryRouter initialEntries={['/login']}> <Route path="/login" render={() => <Login {...props} />}/></MemoryRouter>).toJSON();
     
