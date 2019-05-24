@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Login renders without crashing given the required props 1`] = `
-<div>
-  Loading...
-</div>
+Array [
+  " ",
+  <div>
+    Loading...
+  </div>,
+]
 `;
