@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - stable
+jobs:
+  include:
+    - stage: install
+      script: yarn install
+      skip_cleanup: true
+    - stage: test
+      script: yarn test --ci
+      skip_cleanup: true
+    - stage: release
+      node_js: lts/*
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - yarn semantic-release
+      if: branch = master

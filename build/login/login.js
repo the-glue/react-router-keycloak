@@ -1,29 +1,31 @@
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
-exports.Login = void 0;
+exports['default'] = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireDefault(require('react'));
 
-var _reactRouterDom = require("react-router-dom");
+var _reactRouterDom = require('react-router-dom');
 
-var _keycloak = require("../keycloak");
+var _KeycloakContext = _interopRequireDefault(require('../keycloak/KeycloakContext'));
+
+var _keycloak = require('../keycloak/keycloak');
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
 function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+  if (typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol') {
     _typeof = function _typeof(obj) {
       return typeof obj;
     };
   } else {
     _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype
-        ? "symbol"
+      return obj && typeof Symbol === 'function' && obj.constructor === Symbol && obj !== Symbol.prototype
+        ? 'symbol'
         : typeof obj;
     };
   }
@@ -32,7 +34,7 @@ function _typeof(obj) {
 
 function _classCallCheck(instance, Constructor) {
   if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
+    throw new TypeError('Cannot call a class as a function');
   }
 }
 
@@ -41,7 +43,7 @@ function _defineProperties(target, props) {
     var descriptor = props[i];
     descriptor.enumerable = descriptor.enumerable || false;
     descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
+    if ('value' in descriptor) descriptor.writable = true;
     Object.defineProperty(target, descriptor.key, descriptor);
   }
 }
@@ -53,7 +55,7 @@ function _createClass(Constructor, protoProps, staticProps) {
 }
 
 function _possibleConstructorReturn(self, call) {
-  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+  if (call && (_typeof(call) === 'object' || typeof call === 'function')) {
     return call;
   }
   return _assertThisInitialized(self);
@@ -76,8 +78,8 @@ function _assertThisInitialized(self) {
 }
 
 function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
+  if (typeof superClass !== 'function' && superClass !== null) {
+    throw new TypeError('Super expression must either be null or a function');
   }
   subClass.prototype = Object.create(superClass && superClass.prototype, {
     constructor: { value: subClass, writable: true, configurable: true }
@@ -109,58 +111,82 @@ var Login =
   (function(_React$Component) {
     _inherits(Login, _React$Component);
 
-    function Login(props) {
+    function Login() {
+      var _getPrototypeOf2;
+
       var _this;
 
       _classCallCheck(this, Login);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props)); // log in should occur before the components are rendered.
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
 
-      _defineProperty(_assertThisInitialized(_this), "logIn", function() {
-        if (!_keycloak.keycloak.authenticated) {
+      _this = _possibleConstructorReturn(
+        this,
+        (_getPrototypeOf2 = _getPrototypeOf(Login)).call.apply(_getPrototypeOf2, [this].concat(args))
+      );
+
+      _defineProperty(_assertThisInitialized(_this), 'state', {
+        isLoading: true
+      });
+
+      _defineProperty(_assertThisInitialized(_this), 'logIn', function() {
+        var keycloak = (0, _keycloak.getKeycloak)();
+
+        if (!keycloak.authenticated) {
           try {
-            _keycloak.keycloak
+            keycloak
               .init({
-                onLoad: "login-required",
+                onLoad: 'login-required',
                 checkLoginIframe: false
               })
               .success(function() {
-                _this.initDone = true;
+                _this.setState({
+                  isLoading: false
+                });
 
-                _this.props.userLoggedIn(true, _keycloak.keycloak.token); // component is not rerendered on a local variable,
-                // force update to rerender this component and to make sure there is a redirect.
-
-                _this.forceUpdate();
+                _this.props.onSuccess(keycloak.token);
               })
               .error(function() {
-                _this.props.userLoggedIn(false, null);
+                _this.props.onFailure('there was an error with initializing keycloak, please check your credentials');
               });
           } catch (e) {
-            _this.props.userLoggedIn(false, null);
+            _this.props.onFailure(e);
           }
         }
       });
 
-      _this.logIn();
-
-      _this.initDone = false;
       return _this;
     }
 
     _createClass(Login, [
       {
-        key: "render",
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+          this.logIn();
+        }
+      },
+      {
+        key: 'render',
         value: function render() {
-          if (!this.initDone) {
+          var keycloak = (0, _keycloak.getKeycloak)();
+          var children = this.props.children;
+
+          if (!keycloak.token && this.state.isLoading) {
             // fallback to check if initialization of Keycloak is finished.
-            return _react["default"].createElement("p", null, "Loading...");
+            if (children) {
+              return children;
+            }
+
+            return _react['default'].createElement('div', null, 'Loading...');
           }
 
           return (
             // redirect to the assigned path in the props
-            _react["default"].createElement(_reactRouterDom.Redirect, {
+            _react['default'].createElement(_reactRouterDom.Redirect, {
               to: {
-                pathname: this.props.path
+                pathname: this.props.redirectTo
               }
             })
           );
@@ -169,6 +195,9 @@ var Login =
     ]);
 
     return Login;
-  })(_react["default"].Component);
+  })(_react['default'].Component);
 
-exports.Login = Login;
+_defineProperty(Login, 'contextType', _KeycloakContext['default']);
+
+var _default = Login;
+exports['default'] = _default;

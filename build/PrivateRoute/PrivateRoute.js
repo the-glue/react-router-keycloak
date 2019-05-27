@@ -1,15 +1,17 @@
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
-exports.PrivateRoute = void 0;
+exports['default'] = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireDefault(require('react'));
 
-var _reactRouterDom = require("react-router-dom");
+var _reactRouterDom = require('react-router-dom');
 
-var _keycloak = require("../keycloak");
+var _KeycloakContext = _interopRequireDefault(require('../keycloak/KeycloakContext'));
+
+var _keycloak = require('../keycloak/keycloak');
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
@@ -61,41 +63,46 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   return target;
 }
 
-var updateToken = function updateToken(props) {
-  // refresh the token if it is about to expire within 5 minutes.
-  _keycloak.keycloak.updateToken(300).success(function(refreshed) {
+var updateToken = function updateToken(onRefresh) {
+  var keycloak = (0, _keycloak.getKeycloak)(); // refresh the token if it is about to expire within 5 minutes.
+
+  keycloak.updateToken(300).success(function(refreshed) {
     if (refreshed) {
-      props.userLoggedIn(true, _keycloak.keycloak.token);
+      onRefresh(keycloak.token);
     }
   });
 };
 
-var checkLogin = function checkLogin(props) {
-  updateToken(props);
-  return _keycloak.keycloak.authenticated;
+var checkLogin = function checkLogin(onRefresh) {
+  var keycloak = (0, _keycloak.getKeycloak)();
+  updateToken(onRefresh);
+  return keycloak.authenticated;
 };
 
 var PrivateRoute = function PrivateRoute(_ref) {
   var Component = _ref.component,
-    rest = _objectWithoutProperties(_ref, ["component"]);
+    rest = _objectWithoutProperties(_ref, ['component']);
 
-  return _react["default"].createElement(
-    _reactRouterDom.Route,
-    _extends({}, rest, {
-      render: function render(props) {
-        return checkLogin(rest)
-          ? _react["default"].createElement(Component, props)
-          : _react["default"].createElement(_reactRouterDom.Redirect, {
-              to: {
-                pathname: "/log-in",
-                state: {
-                  from: props.location
+  return _react['default'].createElement(_KeycloakContext['default'].Consumer, null, function(context) {
+    return _react['default'].createElement(
+      _reactRouterDom.Route,
+      _extends({}, rest, {
+        render: function render(props) {
+          return checkLogin(context.onRefresh)
+            ? _react['default'].createElement(Component, props)
+            : _react['default'].createElement(_reactRouterDom.Redirect, {
+                to: {
+                  pathname: context.loginPath,
+                  state: {
+                    from: props.location
+                  }
                 }
-              }
-            });
-      }
-    })
-  );
+              });
+        }
+      })
+    );
+  });
 };
 
-exports.PrivateRoute = PrivateRoute;
+var _default = PrivateRoute;
+exports['default'] = _default;

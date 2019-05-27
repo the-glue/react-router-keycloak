@@ -1,21 +1,27 @@
-"use strict";
+'use strict';
 
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireDefault(require('react'));
 
-var _enzyme = require("enzyme");
+var _enzyme = require('enzyme');
 
-var _login = require("./login");
+var _index = require('../index');
+
+var _keycloak = require('../keycloak/keycloak');
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
 }
 
-describe("Login", function() {
-  it("renders without crashing given the required props", function() {
+describe('Login', function() {
+  beforeAll(function() {
+    (0, _keycloak.configureKeycloak)('dummy url', 'dummy realm', 'dummy id');
+  });
+  it('renders without crashing given the required props', function() {
     var props = {
-      userLoggedIn: jest.fn()
+      onSuccess: jest.fn(),
+      onFailure: jest.fn()
     };
-    var wrapper = (0, _enzyme.shallow)(_react["default"].createElement(_login.Login, props));
+    var wrapper = (0, _enzyme.shallow)(_react['default'].createElement(_index.Login, props));
     expect(wrapper).toMatchSnapshot();
   });
 });

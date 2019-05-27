@@ -5,39 +5,14 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports['default'] = void 0;
 
-var _react = _interopRequireWildcard(require('react'));
+var _react = _interopRequireDefault(require('react'));
 
-var _reactRouterDom = require('react-router-dom');
+var _propTypes = _interopRequireDefault(require('prop-types'));
 
-var _KeycloakContext = _interopRequireDefault(require('../keycloak/KeycloakContext'));
-
-var _keycloak = require('../keycloak/keycloak');
+var _KeycloakContext = _interopRequireDefault(require('./KeycloakContext'));
 
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
-}
-
-function _interopRequireWildcard(obj) {
-  if (obj && obj.__esModule) {
-    return obj;
-  } else {
-    var newObj = {};
-    if (obj != null) {
-      for (var key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key)) {
-          var desc =
-            Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {};
-          if (desc.get || desc.set) {
-            Object.defineProperty(newObj, key, desc);
-          } else {
-            newObj[key] = obj[key];
-          }
-        }
-      }
-    }
-    newObj['default'] = obj;
-    return newObj;
-  }
 }
 
 function _typeof(obj) {
@@ -84,6 +59,13 @@ function _possibleConstructorReturn(self, call) {
   return _assertThisInitialized(self);
 }
 
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+  return self;
+}
+
 function _getPrototypeOf(o) {
   _getPrototypeOf = Object.setPrototypeOf
     ? Object.getPrototypeOf
@@ -91,13 +73,6 @@ function _getPrototypeOf(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
       };
   return _getPrototypeOf(o);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-  return self;
 }
 
 function _inherits(subClass, superClass) {
@@ -129,62 +104,49 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-var Logout =
+var KeycloakProvider =
   /*#__PURE__*/
-  (function(_Component) {
-    _inherits(Logout, _Component);
+  (function(_React$Component) {
+    _inherits(KeycloakProvider, _React$Component);
 
-    function Logout() {
-      var _getPrototypeOf2;
+    function KeycloakProvider() {
+      _classCallCheck(this, KeycloakProvider);
 
-      var _this;
-
-      _classCallCheck(this, Logout);
-
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
-      _this = _possibleConstructorReturn(
-        this,
-        (_getPrototypeOf2 = _getPrototypeOf(Logout)).call.apply(_getPrototypeOf2, [this].concat(args))
-      );
-
-      _defineProperty(_assertThisInitialized(_this), 'logOut', function() {
-        var keycloak = (0, _keycloak.getKeycloak)();
-
-        if (keycloak.authenticated) {
-          keycloak.logout().success(function() {
-            _this.props.onSuccess();
-          });
-        }
-      });
-
-      return _this;
+      return _possibleConstructorReturn(this, _getPrototypeOf(KeycloakProvider).apply(this, arguments));
     }
 
-    _createClass(Logout, [
-      {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-          this.logOut();
-          this.props.onSuccess();
-        }
-      },
+    _createClass(KeycloakProvider, [
       {
         key: 'render',
         value: function render() {
-          return _react['default'].createElement(_reactRouterDom.Redirect, {
-            to: this.props.redirectTo
-          });
+          var _this$props = this.props,
+            loginPath = _this$props.loginPath,
+            logoutPath = _this$props.logoutPath,
+            onRefresh = _this$props.onRefresh,
+            children = _this$props.children;
+          return _react['default'].createElement(
+            _KeycloakContext['default'].Provider,
+            {
+              value: {
+                loginPath: loginPath,
+                logoutPath: logoutPath,
+                onRefresh: onRefresh
+              }
+            },
+            children
+          );
         }
       }
     ]);
 
-    return Logout;
-  })(_react.Component);
+    return KeycloakProvider;
+  })(_react['default'].Component);
 
-_defineProperty(Logout, 'contextType', _KeycloakContext['default']);
+_defineProperty(KeycloakProvider, 'propTypes', {
+  loginPath: _propTypes['default'].string.isRequired,
+  logoutPath: _propTypes['default'].string.isRequired,
+  onRefresh: _propTypes['default'].func.isRequired
+});
 
-var _default = Logout;
+var _default = KeycloakProvider;
 exports['default'] = _default;

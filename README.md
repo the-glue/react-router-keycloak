@@ -1,27 +1,42 @@
-# theglue-isc-react-library
+# react-router-keycloak
 
 React components to integrate the Identity Service Component based on KeyCloak.
 
 Consists of:
 
+- Keycloak provider: provide keycloak context to the components
 - Login component: authenticate via Keycloak and start a new session
 - Logout component: terminate an ongoing session
 - Private Route component: check the user token for private routes and refreshes the token if necessary
 
 # Installation
 
-`npm install --save theglue-isc-react-library`
+`npm install --save react-router-keycloak`
 
 # Usage
 
-Mount the login, logout and Private route components anywhere in your application. Assign the following function props to the components:
-
-- Login: userLoggedIn, path
-- Logout: userLoggedOut
-- PrivateRoute: userLoggedIn
+You'll need to add a provider around your application that will pass the context to the other components:
 
 ```
-import { Login, Logout, PrivateRoute } from "theglue-isc-react-library";
+import KeycloakProvider, {configureKeycloak} from "react-router-keycloak"
+
+configureKeycloak(KEYCLOAK_URL, REALM, CLIENT_ID);
+
+<KeycloakProvider loginPath="LOGIN_PATH" logoutPath="LOGOUT_PATH" onRefresh="FUNCTION_TO_GET_REFRESHED_TOKEN">
+<App/>
+</KeycloakProvider>
+```
+
+Mount the login, logout and Private route components anywhere in your application. Assign the following function props to the components:
+
+- Login: onSuccess, onFailure, redirectTo
+- Logout: onSuccess, redirectTo
+- PrivateRoute: path, component
+
+The Login component can contain a child component to have your customized loading element.
+
+```
+import { Login, Logout, PrivateRoute } from "react-router-keycloak";
 
 class App extends Component {
   render() {
@@ -29,10 +44,10 @@ class App extends Component {
         <Router>
           <div>
               <Switch>
-                <Route path="/log-in" render={() => <Login userLoggedIn={this.props.userLoggedIn} path="/authenticated-only" />} />
-                <Route path="/log-out" render={() => <Logout userLoggedOut={this.props.userLoggedOut} />} />
+                <Route path="/log-in" render={() => <Login onSuccess={this.props.userLoggedIn} redirectTo="/authenticated-only" />}><div>Loading...</div> </Login>
+                <Route path="/log-out" render={() => <Logout onSuccess={this.props.userLoggedOut} redirectTo="log-in" />} />
                 <Route exact path="/" component={Home} />
-                <PrivateRoute path="/authenticated-only" component={AuthenticatedOnly} userLoggedIn={this.props.userLoggedIn} />
+                <PrivateRoute path="/authenticated-only" component={AuthenticatedOnly} onSuccess={this.props.userLoggedIn} />
               </Switch>
             </div>
           </div>
@@ -47,14 +62,14 @@ To dispatch the function to the store you can do the following:
 ```
 const mapDispatchToProps = (dispatch) =>{
   return {
-    userLoggedIn: (loggedIn, token) => dispatch(userLoggedIn(loggedIn, token)),
+    userLoggedIn: (token) => dispatch(userLoggedIn(token)),
     userLoggedOut: () => dispatch(userLoggedOut())
   };
 }
 
 ```
 
-As you can see the userLoggedIn will return a boolean and a token. This token can be used for further calls to backends. The boolean is a flag that can be stored in a reducer.
+As you can see the userLoggedIn will return a token. This token can be used for further calls to backends.
 
 ## Examples:
 
@@ -100,14 +115,6 @@ export function userLoggedOut() {
   };
 }
 ```
-
-# Environment variables
-
-To connect your Keycloak server you need to provide the following variables in your application:
-
-- REACT_APP_KEYCLOAK_URL: Your Keycloak server url
-- REACT_APP_PARAMETER_REALM: The Realn name that you want the user to authenticate.
-- REACT_APP_PARAMETER_CLIENT_ID: The client id were the user will be authenticated.
 
 # Contribution
 
