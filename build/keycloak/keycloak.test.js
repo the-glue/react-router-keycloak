@@ -1,14 +1,6 @@
 'use strict';
 
-var _react = _interopRequireDefault(require('react'));
-
-var _enzyme = require('enzyme');
-
 var _keycloak = require('../keycloak/keycloak');
-
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : { default: obj };
-}
 
 describe('Keycloak', function() {
   test('configeKeycloak should fail when a parameter is missing', function() {

@@ -5,6 +5,7 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports.configureKeycloak = configureKeycloak;
 exports.getKeycloak = getKeycloak;
+exports.keycloak = void 0;
 
 var _keycloakJs = _interopRequireDefault(require('keycloak-js'));
 
@@ -14,6 +15,7 @@ function _interopRequireDefault(obj) {
 
 // Setup client
 var keycloak;
+exports.keycloak = keycloak;
 
 function configureKeycloak(keycloakUrl, realm, clientId) {
   if (!keycloakUrl) {
@@ -29,7 +31,7 @@ function configureKeycloak(keycloakUrl, realm, clientId) {
   }
 
   if (!keycloak) {
-    keycloak = new _keycloakJs['default']({
+    exports.keycloak = keycloak = new _keycloakJs['default']({
       url: ''.concat(keycloakUrl, '/auth/'),
       realm: realm,
       clientId: clientId
