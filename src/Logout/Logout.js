@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import KeycloakContext from '../keycloak/KeycloakContext';
 import { getKeycloak } from '../keycloak/keycloak';
 
 class Logout extends Component {
-  static contextType = KeycloakContext;
-
+  static propTypes = {
+    onSuccess: PropTypes.func,
+    onFailure: PropTypes.func,
+    redirectTo: PropTypes.string.isRequired
+  };
+  static defaultProps = {
+    onSuccess: () => {},
+    onFailure: () => {}
+  };
   componentDidMount() {
     this.logOut();
     this.props.onSuccess();

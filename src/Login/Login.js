@@ -1,11 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import KeycloakContext from '../keycloak/KeycloakContext';
 import { getKeycloak } from '../keycloak/keycloak';
 
 class Login extends React.Component {
-  static contextType = KeycloakContext;
-
+  static propTypes = {
+    onSuccess: PropTypes.func,
+    onFailure: PropTypes.func,
+    redirectTo: PropTypes.string.isRequired,
+    location: PropTypes.shape({
+      state: PropTypes.shape({
+        from: PropTypes.string
+      })
+    }),
+    children: PropTypes.any
+  };
+  static defaultProps = {
+    onSuccess: () => {},
+    onFailure: e => console.error(e)
+  };
   state = { isLoading: true };
 
   componentDidMount() {
@@ -33,7 +46,7 @@ class Login extends React.Component {
 
   render() {
     const keycloak = getKeycloak();
-    const { children } = this.props;
+    const { children, redirectTo } = this.props;
     if (!keycloak.token && this.state.isLoading) {
       // fallback to check if initialization of Keycloak is finished.
       if (children) {
@@ -46,7 +59,7 @@ class Login extends React.Component {
       // redirect to the assigned path in the props
       <Redirect
         to={{
-          pathname: this.props.redirectTo
+          pathname: redirectTo
         }}
       />
     );
