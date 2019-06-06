@@ -10,17 +10,17 @@
   "license": "MIT",
   "author": "The Glue",
   "dependencies": {
-    "keycloak-js": "^6.0.1",
-    "prop-types": "^15.7.2"
+    "keycloak-js": "^6.0.1"
   },
   "peerDependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.0"
+    "react-router-dom": "^5.0.1",
+    "prop-types": "^15.7.2"
   },
   "scripts": {
     "build": "babel src -d build",
-    "pretest": "yarn add react react-dom react-router-dom --peer",
+    "pretest": "yarn add react prop-types react-dom react-router-dom --peer",
     "test": "jest ./src",
     "lint": "eslint . --fix"
   },

@@ -7,9 +7,9 @@ exports['default'] = void 0;
 
 var _react = _interopRequireWildcard(require('react'));
 
-var _reactRouterDom = require('react-router-dom');
+var _propTypes = _interopRequireDefault(require('prop-types'));
 
-var _KeycloakContext = _interopRequireDefault(require('../keycloak/KeycloakContext'));
+var _reactRouterDom = require('react-router-dom');
 
 var _keycloak = require('../keycloak/keycloak');
 
@@ -184,7 +184,14 @@ var Logout =
     return Logout;
   })(_react.Component);
 
-_defineProperty(Logout, 'contextType', _KeycloakContext['default']);
+_defineProperty(Logout, 'propTypes', {
+  onSuccess: _propTypes['default'].func,
+  redirectTo: _propTypes['default'].string.isRequired
+});
+
+_defineProperty(Logout, 'defaultProps', {
+  onSuccess: function onSuccess() {}
+});
 
 var _default = Logout;
 exports['default'] = _default;

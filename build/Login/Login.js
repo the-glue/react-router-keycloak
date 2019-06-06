@@ -7,9 +7,9 @@ exports['default'] = void 0;
 
 var _react = _interopRequireDefault(require('react'));
 
-var _reactRouterDom = require('react-router-dom');
+var _propTypes = _interopRequireDefault(require('prop-types'));
 
-var _KeycloakContext = _interopRequireDefault(require('../keycloak/KeycloakContext'));
+var _reactRouterDom = require('react-router-dom');
 
 var _keycloak = require('../keycloak/keycloak');
 
@@ -171,7 +171,9 @@ var Login =
         key: 'render',
         value: function render() {
           var keycloak = (0, _keycloak.getKeycloak)();
-          var children = this.props.children;
+          var _this$props = this.props,
+            children = _this$props.children,
+            redirectTo = _this$props.redirectTo;
 
           if (!keycloak.token && this.state.isLoading) {
             // fallback to check if initialization of Keycloak is finished.
@@ -186,7 +188,7 @@ var Login =
             // redirect to the assigned path in the props
             _react['default'].createElement(_reactRouterDom.Redirect, {
               to: {
-                pathname: this.props.redirectTo
+                pathname: redirectTo
               }
             })
           );
@@ -197,7 +199,24 @@ var Login =
     return Login;
   })(_react['default'].Component);
 
-_defineProperty(Login, 'contextType', _KeycloakContext['default']);
+_defineProperty(Login, 'propTypes', {
+  onSuccess: _propTypes['default'].func,
+  onFailure: _propTypes['default'].func,
+  redirectTo: _propTypes['default'].string.isRequired,
+  location: _propTypes['default'].shape({
+    state: _propTypes['default'].shape({
+      from: _propTypes['default'].string
+    })
+  }),
+  children: _propTypes['default'].any
+});
+
+_defineProperty(Login, 'defaultProps', {
+  onSuccess: function onSuccess() {},
+  onFailure: function onFailure(e) {
+    return console.error(e);
+  }
+});
 
 var _default = Login;
 exports['default'] = _default;
