@@ -30,6 +30,7 @@ describe('Login', function() {
     });
 
     var props = {
+      redirectTo: '/',
       onSuccess: jest.fn(),
       onFailure: jest.fn()
     };

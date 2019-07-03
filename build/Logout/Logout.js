@@ -186,11 +186,13 @@ var Logout =
 
 _defineProperty(Logout, 'propTypes', {
   onSuccess: _propTypes['default'].func,
+  onFailure: _propTypes['default'].func,
   redirectTo: _propTypes['default'].string.isRequired
 });
 
 _defineProperty(Logout, 'defaultProps', {
-  onSuccess: function onSuccess() {}
+  onSuccess: function onSuccess() {},
+  onFailure: function onFailure() {}
 });
 
 var _default = Logout;

@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter, Route } from 'react-router-dom';
 import renderer from 'react-test-renderer';
 import { Logout } from '../index';
-import { configureKeycloak, getKeycloak } from '../keycloak/keycloak';
+import { configureKeycloak } from '../keycloak/keycloak';
 
 describe('Logout', () => {
   beforeAll(() => {
@@ -30,7 +30,7 @@ describe('Logout', () => {
       onFailure: jest.fn()
     };
 
-    const wrapper = renderer
+    renderer
       .create(
         <MemoryRouter initialEntries={['/logout']}>
           <Route path="/logout" render={() => <Logout {...props} />} />

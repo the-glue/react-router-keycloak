@@ -18,6 +18,7 @@ describe('Login', () => {
     };
     getKeycloak.mockImplementation(() => Promise.resolve(keycloak));
     const props = {
+      redirectTo: '/',
       onSuccess: jest.fn(),
       onFailure: jest.fn()
     };

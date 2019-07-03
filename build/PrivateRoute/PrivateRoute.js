@@ -7,6 +7,8 @@ exports['default'] = void 0;
 
 var _react = _interopRequireDefault(require('react'));
 
+var _propTypes = _interopRequireDefault(require('prop-types'));
+
 var _reactRouterDom = require('react-router-dom');
 
 var _KeycloakContext = _interopRequireDefault(require('../keycloak/KeycloakContext'));
@@ -79,6 +81,11 @@ var checkLogin = function checkLogin(onRefresh) {
   return keycloak.authenticated;
 };
 
+var propTypes = {
+  component: _propTypes['default'].any,
+  location: _propTypes['default'].string
+};
+
 var PrivateRoute = function PrivateRoute(_ref) {
   var Component = _ref.component,
     rest = _objectWithoutProperties(_ref, ['component']);
@@ -104,5 +111,6 @@ var PrivateRoute = function PrivateRoute(_ref) {
   });
 };
 
+PrivateRoute.propTypes = propTypes;
 var _default = PrivateRoute;
 exports['default'] = _default;

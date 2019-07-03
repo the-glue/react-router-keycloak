@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 import KeycloakContext from '../keycloak/KeycloakContext';
 import { getKeycloak } from '../keycloak/keycloak';
@@ -17,6 +18,11 @@ const checkLogin = onRefresh => {
   const keycloak = getKeycloak();
   updateToken(onRefresh);
   return keycloak.authenticated;
+};
+
+const propTypes = {
+  component: PropTypes.any,
+  location: PropTypes.string
 };
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <KeycloakContext.Consumer>
@@ -39,5 +45,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     )}
   </KeycloakContext.Consumer>
 );
+PrivateRoute.propTypes = propTypes;
 
 export default PrivateRoute;

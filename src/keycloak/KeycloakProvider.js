@@ -6,7 +6,8 @@ class KeycloakProvider extends React.Component {
   static propTypes = {
     loginPath: PropTypes.string.isRequired,
     logoutPath: PropTypes.string.isRequired,
-    onRefresh: PropTypes.func.isRequired
+    onRefresh: PropTypes.func.isRequired,
+    children: PropTypes.any
   };
 
   render() {

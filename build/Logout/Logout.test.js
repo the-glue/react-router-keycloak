@@ -51,7 +51,7 @@ describe('Logout', function() {
       onFailure: jest.fn()
     };
 
-    var wrapper = _reactTestRenderer['default']
+    _reactTestRenderer['default']
       .create(
         _react['default'].createElement(
           _reactRouterDom.MemoryRouter,

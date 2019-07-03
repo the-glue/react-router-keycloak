@@ -145,7 +145,8 @@ var KeycloakProvider =
 _defineProperty(KeycloakProvider, 'propTypes', {
   loginPath: _propTypes['default'].string.isRequired,
   logoutPath: _propTypes['default'].string.isRequired,
-  onRefresh: _propTypes['default'].func.isRequired
+  onRefresh: _propTypes['default'].func.isRequired,
+  children: _propTypes['default'].any
 });
 
 var _default = KeycloakProvider;
