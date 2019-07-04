@@ -6,8 +6,9 @@ import { getKeycloak } from '../keycloak/keycloak';
 
 const updateToken = onRefresh => {
   const keycloak = getKeycloak();
-  // refresh the token if it is about to expire within 5 minutes.
-  keycloak.updateToken(300).success(refreshed => {
+  // refresh the token if it is about to expire within 4 minutes.
+  // default keycloak validity is 5 min, so we need to add less to avoid refresh loop
+  keycloak.updateToken(240).success(refreshed => {
     if (refreshed) {
       onRefresh(keycloak.token);
     }
