@@ -1,19 +1,24 @@
 language: node_js
+
+services:
+  - docker
+
 node_js:
   - stable
+
+branches:
+  only:
+    - master
+
+install:
+  - travis_retry yarn install
+
+script:
+  - yarn run test
+
 jobs:
   include:
-    - stage: install
-      script: yarn install
-      skip_cleanup: true
-    - stage: test
-      script: yarn test --ci
-      skip_cleanup: true
     - stage: release
       node_js: lts/*
-      deploy:
-        provider: script
-        skip_cleanup: true
-        script:
-          - yarn semantic-release
-      if: branch = master
+      script:
+        - yarn run semantic-release
