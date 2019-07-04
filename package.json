@@ -1,6 +1,6 @@
 {
   "name": "react-router-keycloak",
-  "version": "0.0.13",
+  "version": "1.0.3",
   "description": "Integrate the Identity Server Component inside a react app",
   "main": "build/index.js",
   "repository": {
