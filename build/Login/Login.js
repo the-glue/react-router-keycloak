@@ -128,33 +128,41 @@ var Login =
       );
 
       _defineProperty(_assertThisInitialized(_this), 'state', {
-        isLoading: true
+        authenticated: false
       });
 
       _defineProperty(_assertThisInitialized(_this), 'logIn', function() {
         var keycloak = (0, _keycloak.getKeycloak)();
+        keycloak
+          .init()
+          .success(function(authenticated) {
+            if (authenticated) {
+              // Remove the last redirect path from the session storage
+              window.sessionStorage.removeItem('keycloak-react-router:redirectTo'); // Update the state to re-render so it will redirect to the previous private route
 
-        if (!keycloak.authenticated) {
-          try {
-            keycloak
-              .init({
-                onLoad: 'login-required',
-                checkLoginIframe: false
-              })
-              .success(function() {
-                _this.setState({
-                  isLoading: false
-                });
+              _this.setState({
+                authenticated: authenticated
+              }); // Call the onSuccess callback with the provided keycloak token
 
-                _this.props.onSuccess(keycloak.token);
-              })
-              .error(function() {
-                _this.props.onFailure('there was an error with initializing keycloak, please check your credentials');
-              });
-          } catch (e) {
-            _this.props.onFailure(e);
-          }
-        }
+              _this.props.onSuccess(keycloak.token);
+            } else {
+              try {
+                var location = _this.props.location;
+
+                if (location.state && location.state.redirectTo) {
+                  // Store the current path in session storage before leaving the application to log in on keycloak server
+                  window.sessionStorage.setItem('keycloak-react-router:redirectTo', location.state.redirectTo);
+                } // Redirect to keycloak login page
+
+                keycloak.login();
+              } catch (e) {
+                _this.props.onFailure(e);
+              }
+            }
+          })
+          .error(function() {
+            _this.props.onFailure('There was an error with initializing keycloak, please check your credentials');
+          });
       });
 
       return _this;
@@ -170,28 +178,22 @@ var Login =
       {
         key: 'render',
         value: function render() {
-          var keycloak = (0, _keycloak.getKeycloak)();
           var _this$props = this.props,
             children = _this$props.children,
             redirectTo = _this$props.redirectTo;
 
-          if (!keycloak.token && this.state.isLoading) {
-            // fallback to check if initialization of Keycloak is finished.
+          if (!this.state.authenticated) {
+            // display default loading or the one provided as children
             if (children) {
               return children;
             }
 
             return _react['default'].createElement('div', null, 'Loading...');
-          }
+          } // redirect to the assigned path in the session storage or fallback to the one provided as props
 
-          return (
-            // redirect to the assigned path in the props
-            _react['default'].createElement(_reactRouterDom.Redirect, {
-              to: {
-                pathname: redirectTo
-              }
-            })
-          );
+          return _react['default'].createElement(_reactRouterDom.Redirect, {
+            to: window.sessionStorage.getItem('keycloak-react-router:redirectTo') || redirectTo
+          });
         }
       }
     ]);
@@ -205,7 +207,7 @@ _defineProperty(Login, 'propTypes', {
   redirectTo: _propTypes['default'].string.isRequired,
   location: _propTypes['default'].shape({
     state: _propTypes['default'].shape({
-      from: _propTypes['default'].string
+      redirectTo: _propTypes['default'].string
     })
   }),
   children: _propTypes['default'].any

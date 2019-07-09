@@ -21,9 +21,10 @@ class Logout extends Component {
   logOut = () => {
     const keycloak = getKeycloak();
     if (keycloak.authenticated) {
-      keycloak.logout().success(() => {
-        this.props.onSuccess();
-      });
+      keycloak
+        .logout()
+        .success(this.props.onSuccess)
+        .error(this.props.onFailure);
     }
   };
 

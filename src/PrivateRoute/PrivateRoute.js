@@ -23,25 +23,29 @@ const checkLogin = onRefresh => {
 
 const propTypes = {
   component: PropTypes.any,
-  location: PropTypes.string
+  location: PropTypes.shape({
+    pathname: PropTypes.string
+  })
 };
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <KeycloakContext.Consumer>
     {context => (
       <Route
         {...rest}
-        render={props =>
-          checkLogin(context.onRefresh) ? (
-            <Component {...props} />
-          ) : (
-            <Redirect
-              to={{
-                pathname: context.loginPath,
-                state: { from: props.location }
-              }}
-            />
-          )
-        }
+        render={props => {
+          if (checkLogin(context.onRefresh)) {
+            return <Component {...props} />;
+          } else {
+            return (
+              <Redirect
+                to={{
+                  pathname: context.loginPath,
+                  state: { redirectTo: props.location.pathname }
+                }}
+              />
+            );
+          }
+        }}
       />
     )}
   </KeycloakContext.Consumer>

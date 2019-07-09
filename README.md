@@ -29,8 +29,8 @@ configureKeycloak(KEYCLOAK_URL, REALM, CLIENT_ID);
 
 Mount the login, logout and Private route components anywhere in your application. Assign the following function props to the components:
 
-- Login: onSuccess, onFailure, redirectTo
-- Logout: onSuccess, redirectTo
+- Login: onSuccess, onFailure, redirectTo and the actual render props from the Route itself
+- Logout: onSuccess, redirectTo and the actual render props from the Route itself
 - PrivateRoute: path, component
 
 The Login component can contain a child component to have your customized loading element.
@@ -44,8 +44,8 @@ class App extends Component {
         <Router>
           <div>
               <Switch>
-                <Route path="/log-in" render={() => <Login onSuccess={this.props.userLoggedIn} redirectTo="/authenticated-only" />}><div>Loading...</div> </Login>
-                <Route path="/log-out" render={() => <Logout onSuccess={this.props.userLoggedOut} redirectTo="log-in" />} />
+                <Route path="/log-in" render={props => <Login onSuccess={this.props.userLoggedIn} redirectTo="/authenticated-only" {...props} />}><div>Loading...</div> </Login>
+                <Route path="/log-out" render={props => <Logout onSuccess={this.props.userLoggedOut} redirectTo="log-in" {...props} />} />
                 <Route exact path="/" component={Home} />
                 <PrivateRoute path="/authenticated-only" component={AuthenticatedOnly} onSuccess={this.props.userLoggedIn} />
               </Switch>

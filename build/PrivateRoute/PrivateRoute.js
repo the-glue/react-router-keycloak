@@ -66,9 +66,10 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 }
 
 var updateToken = function updateToken(onRefresh) {
-  var keycloak = (0, _keycloak.getKeycloak)(); // refresh the token if it is about to expire within 5 minutes.
+  var keycloak = (0, _keycloak.getKeycloak)(); // refresh the token if it is about to expire within 4 minutes.
+  // default keycloak validity is 5 min, so we need to add less to avoid refresh loop
 
-  keycloak.updateToken(300).success(function(refreshed) {
+  keycloak.updateToken(240).success(function(refreshed) {
     if (refreshed) {
       onRefresh(keycloak.token);
     }
@@ -83,7 +84,9 @@ var checkLogin = function checkLogin(onRefresh) {
 
 var propTypes = {
   component: _propTypes['default'].any,
-  location: _propTypes['default'].string
+  location: _propTypes['default'].shape({
+    pathname: _propTypes['default'].string
+  })
 };
 
 var PrivateRoute = function PrivateRoute(_ref) {
@@ -95,16 +98,18 @@ var PrivateRoute = function PrivateRoute(_ref) {
       _reactRouterDom.Route,
       _extends({}, rest, {
         render: function render(props) {
-          return checkLogin(context.onRefresh)
-            ? _react['default'].createElement(Component, props)
-            : _react['default'].createElement(_reactRouterDom.Redirect, {
-                to: {
-                  pathname: context.loginPath,
-                  state: {
-                    from: props.location
-                  }
+          if (checkLogin(context.onRefresh)) {
+            return _react['default'].createElement(Component, props);
+          } else {
+            return _react['default'].createElement(_reactRouterDom.Redirect, {
+              to: {
+                pathname: context.loginPath,
+                state: {
+                  redirectTo: props.location.pathname
                 }
-              });
+              }
+            });
+          }
         }
       })
     );

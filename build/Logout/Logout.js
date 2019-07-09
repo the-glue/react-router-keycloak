@@ -154,9 +154,10 @@ var Logout =
         var keycloak = (0, _keycloak.getKeycloak)();
 
         if (keycloak.authenticated) {
-          keycloak.logout().success(function() {
-            _this.props.onSuccess();
-          });
+          keycloak
+            .logout()
+            .success(_this.props.onSuccess)
+            .error(_this.props.onFailure);
         }
       });
 
