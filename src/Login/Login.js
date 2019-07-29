@@ -34,8 +34,6 @@ class Login extends React.Component {
       .init()
       .success(authenticated => {
         if (authenticated) {
-          // Remove the last redirect path from the session storage
-          window.sessionStorage.removeItem('keycloak-react-router:redirectTo');
           // Update the state to re-render so it will redirect to the previous private route
           this.setState({ authenticated });
           // Call the onSuccess callback with the provided keycloak token
