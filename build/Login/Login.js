@@ -137,9 +137,7 @@ var Login =
           .init()
           .success(function(authenticated) {
             if (authenticated) {
-              // Remove the last redirect path from the session storage
-              window.sessionStorage.removeItem('keycloak-react-router:redirectTo'); // Update the state to re-render so it will redirect to the previous private route
-
+              // Update the state to re-render so it will redirect to the previous private route
               _this.setState({
                 authenticated: authenticated
               }); // Call the onSuccess callback with the provided keycloak token
