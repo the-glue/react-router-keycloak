@@ -1,11 +1,11 @@
 {
   "name": "react-router-keycloak",
-  "version": "1.0.3",
+  "version": "0.0.0-development",
   "description": "Integrate the Identity Server Component inside a react app",
-  "main": "build/index.js",
+  "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "the-glue/react-router-keycloak"
+    "url": "https://github.com/the-glue/react-router-keycloak"
   },
   "license": "MIT",
   "author": "The Glue",
@@ -19,11 +19,12 @@
     "react-router-dom": "^5.0.1"
   },
   "scripts": {
-    "build": "babel src -d build",
+    "build": "babel src -d dist",
     "pretest": "yarn add react prop-types react-dom react-router-dom --peer",
     "test": "jest ./src",
     "lint": "eslint . --fix",
-    "pretty": "prettier --write src/**/*.{js,jsx,json,css,scss,md}"
+    "pretty": "prettier --write src/**/*.{js,jsx,json,css,scss,md}",
+    "semantic-release": "semantic-release"
   },
   "husky": {
     "hooks": {
