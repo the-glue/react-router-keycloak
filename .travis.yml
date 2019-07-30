@@ -12,6 +12,7 @@ install:
 
 script:
   - yarn test
+  - yarn build
 
 jobs:
   include:
