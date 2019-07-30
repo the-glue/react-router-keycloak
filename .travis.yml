@@ -7,7 +7,12 @@ branches:
   only:
     - master
 
+script:
+  - yarn test
+  - yarn build
+
 deploy:
   provider: script
+  skip_cleanup: true
   script:
-    - yarn build && npx semantic-release
+    - npx semantic-release
