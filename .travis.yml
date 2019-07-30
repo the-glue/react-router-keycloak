@@ -18,4 +18,5 @@ jobs:
         provider: script
         skip_cleanup: true
         script:
+          - yarn build
           - npx semantic-release
