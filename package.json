@@ -38,6 +38,22 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/github",
+        {
+          "assets": [
+            "dist/**"
+          ]
+        }
+      ]
+    ],
+    "preset": "angular"
+  },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
