@@ -2,120 +2,73 @@
 
 React components to integrate the Identity Service Component based on KeyCloak.
 
-Consists of:
-
-- Keycloak provider: provide keycloak context to the components
-- Login component: authenticate via Keycloak and start a new session
-- Logout component: terminate an ongoing session
-- Private Route component: check the user token for private routes and refreshes the token if necessary
-
-# Installation
+## Installation
 
 `npm install --save react-router-keycloak`
 
-# Usage
+## Usage
 
-You'll need to add a provider around your application that will pass the context to the other components:
+You'll need to wrap your application in a `KeycloakProvider` which will provide the right context to the other components.
 
-```
-import KeycloakProvider, {configureKeycloak} from "react-router-keycloak"
+Then use the `Login`, `Logout` and `PrivateRoute` anywhere as you would do with a `react-router` route.
 
-configureKeycloak(KEYCLOAK_URL, REALM, CLIENT_ID);
+You can pass a child to the `Login` component to display a custom loading if necessary.
 
-<KeycloakProvider loginPath="LOGIN_PATH" logoutPath="LOGOUT_PATH" onRefresh="FUNCTION_TO_GET_REFRESHED_TOKEN">
-<App/>
-</KeycloakProvider>
-```
+The module consists of:
 
-Mount the login, logout and Private route components anywhere in your application. Assign the following function props to the components:
+- `configureKeycloak`: instantiate the keycloak library with the right options
+  - keycloakUrl: (**required**) The `url` to your keycloak server
+  - realm: (**required**) The keycloak `realm` to use
+  - clientId: (**required**) The keycloak `client_id` to use
+- `KeycloakProvider`: provide keycloak context to the components
+  - loginPath: (**required**) A `react-router` path to the Login component
+  - logoutPath: (**required**) A `react-router` path to the Logout component
+  - onRefresh: (**required**) Called every time the token is refreshed so you can update it locally
+  - refreshRate: (**optional**) An interval expressed in seconds before trying to refresh the token. _Default set to 10 seconds_
+  - minValidity: (**optional**) If the token expires within `MIN_VALIDITY` seconds, the token is refreshed. _Default set to 30 seconds_
+- `Login`: authenticate via Keycloak and start a new session
+  - redirectTo: (**required**)
+  - onSuccess: (**optional**) Called after a successful login
+  - onFailure: (**optional**) Called after a login failure
+  - children: (**optional**) Used to display during loading
+- `Logout`: terminate an ongoing session
+  - redirectTo: (**required**) A `react-router` path to a public component
+  - onSuccess: (**optional**) Called after a successful logout
+  - children: (**optional**) Used to display during loading
+- `PrivateRoute`: check the user token for private routes and refreshes the token if necessary
+  - path: (**required**) A `react-router` path to render you component
+  - component: (**required**) The component you want to make private
 
-- Login: onSuccess, onFailure, redirectTo and the actual render props from the Route itself
-- Logout: onSuccess, redirectTo and the actual render props from the Route itself
-- PrivateRoute: path, component
+## Example
 
-The Login component can contain a child component to have your customized loading element.
+```jsx harmony
+import React from 'react';
+import Router, { Route } from 'react-router';
+import KeycloakProvider, { configureKeycloak, PrivateRoute, Login, Logout } from 'react-router-keycloak';
 
-```
-import { Login, Logout, PrivateRoute } from "react-router-keycloak";
+const KEYCLOAK_URL = 'The `url` to your keycloak server';
+const KEYCLOAK_REALM = 'The keycloak `realm` to use';
+const KEYCLOAK_CLIENT_ID = 'The keycloak `client_id` to use';
 
-class App extends Component {
-  render() {
-    return (
-        <Router>
-          <div>
-              <Switch>
-                <Route path="/log-in" render={props => <Login onSuccess={this.props.userLoggedIn} redirectTo="/authenticated-only" {...props} />}><div>Loading...</div> </Login>
-                <Route path="/log-out" render={props => <Logout onSuccess={this.props.userLoggedOut} redirectTo="log-in" {...props} />} />
-                <Route exact path="/" component={Home} />
-                <PrivateRoute path="/authenticated-only" component={AuthenticatedOnly} onSuccess={this.props.userLoggedIn} />
-              </Switch>
-            </div>
-          </div>
-        </Router>
-    );
-  }
-}
-```
-
-To dispatch the function to the store you can do the following:
-
-```
-const mapDispatchToProps = (dispatch) =>{
-  return {
-    userLoggedIn: (token) => dispatch(userLoggedIn(token)),
-    userLoggedOut: () => dispatch(userLoggedOut())
-  };
+function handleRefresh(token) {
+  console.log('Called every time the token is refreshed so you can update it locally', token);
 }
 
+// Initialize a keycloak instance that will be used in every sub-components
+configureKeycloak(KEYCLOAK_URL, KEYCLOAK_REALM, KEYCLOAK_CLIENT_ID);
+
+export default () => (
+  <KeycloakProvider loginPath="/login" logoutPath="/logout" onRefresh={handleRefresh}>
+    <Router>
+      <Route exact path="/" render={() => <div>A public home page</div>} />
+      <Route path="/login" render={props => <Login redirectTo="/private" {...props} />} />
+      <Route path="/log-out" render={props => <Logout redirectTo="/" {...props} />} />
+      <PrivateRoute path="/private" component={() => <div>A private page</div>} />
+    </Router>
+  </KeycloakProvider>
+);
 ```
 
-As you can see the userLoggedIn will return a token. This token can be used for further calls to backends.
-
-## Examples:
-
-**reducer.js**
-
-```
-function user(state = { isAuthenticated: false }, action) {
-  switch (action.type) {
-    case USER_LOGGED_IN:
-      axios.defaults.headers.common.Authorization = `Bearer ${action.token}`;
-      return {
-        ...state,
-        isAuthenticated: action.isAuthenticated
-      };
-    case USER_LOGGED_OUT:
-      axios.defaults.headers.common.Authorization = "";
-      return {
-        ...state,
-        isAuthenticated: action.isAuthenticated
-      };
-    default:
-      return state;
-  }
-}
-```
-
-**actions.js**
-
-```
-export function userLoggedIn(loggedIn, token) {
-  return {
-    type: USER_LOGGED_IN,
-    isAuthenticated: loggedIn,
-    token
-  };
-}
-
-export function userLoggedOut() {
-
-  return {
-    type: USER_LOGGED_OUT,
-    isAuthenticated: false
-  };
-}
-```
-
-# Contribution
+## Contribution
 
 Create a pull request for every change. Make sure unit tests are written and working, run lint and rebuild your files.

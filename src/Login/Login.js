@@ -13,7 +13,7 @@ class Login extends React.Component {
         redirectTo: PropTypes.string
       })
     }),
-    children: PropTypes.any
+    children: PropTypes.node
   };
   static defaultProps = {
     onSuccess: () => {},
@@ -21,51 +21,43 @@ class Login extends React.Component {
   };
 
   state = {
-    authenticated: false
+    loading: true
   };
 
   componentDidMount() {
-    this.logIn();
-  }
-
-  logIn = () => {
+    const { location, onSuccess, onFailure } = this.props;
     const keycloak = getKeycloak();
     keycloak
       .init()
       .success(authenticated => {
         if (authenticated) {
           // Update the state to re-render so it will redirect to the previous private route
-          this.setState({ authenticated });
+          this.setState({ loading: false });
           // Call the onSuccess callback with the provided keycloak token
-          this.props.onSuccess(keycloak.token);
+          onSuccess(keycloak.token);
         } else {
-          try {
-            const { location } = this.props;
-            if (location.state && location.state.redirectTo) {
-              // Store the current path in session storage before leaving the application to log in on keycloak server
-              window.sessionStorage.setItem('keycloak-react-router:redirectTo', location.state.redirectTo);
-            }
-            // Redirect to keycloak login page
-            keycloak.login();
-          } catch (e) {
-            this.props.onFailure(e);
+          if (location.state && location.state.redirectTo) {
+            // Store the current path in session storage before leaving the application to log in on keycloak server
+            window.sessionStorage.setItem('keycloak-react-router:redirectTo', location.state.redirectTo);
           }
+          // Redirect to keycloak login page
+          keycloak.login();
         }
       })
       .error(() => {
-        this.props.onFailure('There was an error with initializing keycloak, please check your credentials');
+        onFailure('There was an error with initializing keycloak, please check your credentials');
       });
-  };
-
+  }
   render() {
     const { children, redirectTo } = this.props;
-    if (!this.state.authenticated) {
+    const { loading } = this.state;
+    if (loading) {
       // display default loading or the one provided as children
       if (children) {
         return children;
       }
 
-      return <div>Loading...</div>;
+      return <div>Connecting...</div>;
     }
     // redirect to the assigned path in the session storage or fallback to the one provided as props
     return <Redirect to={window.sessionStorage.getItem('keycloak-react-router:redirectTo') || redirectTo} />;

@@ -2,6 +2,6 @@
 
 exports[`Login renders without crashing given the required props 1`] = `
 <div>
-  Loading...
+  Connecting...
 </div>
 `;
