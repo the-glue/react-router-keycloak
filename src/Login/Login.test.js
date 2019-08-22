@@ -4,6 +4,8 @@ import renderer from 'react-test-renderer';
 import Login from './Login';
 import { configureKeycloak } from '../keycloak/keycloak';
 
+window.location.replace = jest.fn();
+
 describe('Login', () => {
   beforeAll(() => {
     configureKeycloak('dummy url', 'dummy realm', 'dummy id');
@@ -18,10 +20,11 @@ describe('Login', () => {
     const wrapper = renderer
       .create(
         <MemoryRouter initialEntries={['/login']}>
-          <Route path="/login" render={() => <Login {...props} />} />
+          <Route path="/login" render={routeProps => <Login {...props} {...routeProps} />} />
         </MemoryRouter>
       )
       .toJSON();
     expect(wrapper).toMatchSnapshot();
+    expect(window.location.replace).toHaveBeenCalled();
   });
 });

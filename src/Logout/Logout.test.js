@@ -11,8 +11,7 @@ describe('Logout', () => {
   it('renders without crashing given the required props', () => {
     const props = {
       redirectTo: '/dummy',
-      onSuccess: jest.fn(),
-      onFailure: jest.fn()
+      onSuccess: jest.fn()
     };
     const wrapper = renderer
       .create(
@@ -26,8 +25,7 @@ describe('Logout', () => {
   it('onSuccess should be called when logging out and keycloak is available', () => {
     const props = {
       redirectTo: '/dummy',
-      onSuccess: jest.fn(),
-      onFailure: jest.fn()
+      onSuccess: jest.fn()
     };
 
     renderer

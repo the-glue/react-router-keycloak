@@ -6,30 +6,40 @@ import { getKeycloak } from '../keycloak/keycloak';
 class Logout extends Component {
   static propTypes = {
     onSuccess: PropTypes.func,
-    onFailure: PropTypes.func,
-    redirectTo: PropTypes.string.isRequired
+    redirectTo: PropTypes.string.isRequired,
+    children: PropTypes.node
   };
   static defaultProps = {
     onSuccess: () => {},
     onFailure: () => {}
   };
-  componentDidMount() {
-    this.logOut();
-    this.props.onSuccess();
-  }
-
-  logOut = () => {
-    const keycloak = getKeycloak();
-    if (keycloak.authenticated) {
-      keycloak
-        .logout()
-        .success(this.props.onSuccess)
-        .error(this.props.onFailure);
-    }
+  state = {
+    loading: true
   };
+  componentDidMount() {
+    const { onSuccess } = this.props;
+    const keycloak = getKeycloak();
 
+    if (keycloak.authenticated) {
+      // Redirect to keycloak logout page
+      keycloak.logout();
+    } else {
+      this.setState({ loading: false });
+      onSuccess();
+    }
+  }
   render() {
-    return <Redirect to={this.props.redirectTo} />;
+    const { redirectTo, children } = this.props;
+    const { loading } = this.state;
+    if (loading) {
+      // display default loading or the one provided as children
+      if (children) {
+        return children;
+      }
+
+      return <div>Disconnecting...</div>;
+    }
+    return <Redirect to={redirectTo} />;
   }
 }
 
