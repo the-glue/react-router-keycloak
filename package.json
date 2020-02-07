@@ -10,13 +10,13 @@
   "license": "MIT",
   "author": "The Glue",
   "dependencies": {
-    "keycloak-js": "^6.0.1"
+    "keycloak-js": "^8.0.1"
   },
   "peerDependencies": {
     "prop-types": "^15.7.2",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.1"
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-router-dom": "^5.1.2"
   },
   "scripts": {
     "build": "babel src -d dist",
