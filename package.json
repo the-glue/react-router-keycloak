@@ -10,7 +10,7 @@
   "license": "MIT",
   "author": "The Glue",
   "dependencies": {
-    "keycloak-js": "^8.0.1"
+    "keycloak-js": "^9.0.2"
   },
   "peerDependencies": {
     "prop-types": "^15.7.2",

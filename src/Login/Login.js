@@ -28,7 +28,7 @@ class Login extends React.Component {
     const { location, onSuccess, onFailure } = this.props;
     const keycloak = getKeycloak();
     keycloak
-      .init()
+      .init({ checkLoginIframe: false })
       .success(authenticated => {
         if (authenticated) {
           // Update the state to re-render so it will redirect to the previous private route
