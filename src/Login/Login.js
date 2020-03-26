@@ -29,7 +29,7 @@ class Login extends React.Component {
     const keycloak = getKeycloak();
     keycloak
       .init({ checkLoginIframe: false })
-      .success(authenticated => {
+      .then(authenticated => {
         if (authenticated) {
           // Update the state to re-render so it will redirect to the previous private route
           this.setState({ loading: false });
@@ -44,7 +44,7 @@ class Login extends React.Component {
           keycloak.login();
         }
       })
-      .error(() => {
+      .catch(() => {
         onFailure('There was an error with initializing keycloak, please check your credentials');
       });
   }

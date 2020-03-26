@@ -25,6 +25,5 @@ describe('Login', () => {
       )
       .toJSON();
     expect(wrapper).toMatchSnapshot();
-    expect(window.location.replace).toHaveBeenCalled();
   });
 });

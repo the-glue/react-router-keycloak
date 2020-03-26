@@ -46,7 +46,7 @@ export function getKeycloak() {
  */
 export const updateToken = (onRefresh, minValidity = 30) => {
   const keycloak = getKeycloak();
-  keycloak.updateToken(minValidity).success(refreshed => {
+  keycloak.updateToken(minValidity).then(refreshed => {
     if (refreshed) {
       onRefresh(keycloak.token);
     }
