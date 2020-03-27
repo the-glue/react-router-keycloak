@@ -6,15 +6,21 @@ import { getKeycloak } from '../keycloak/keycloak';
 class Logout extends Component {
   static propTypes = {
     onSuccess: PropTypes.func,
-    redirectTo: PropTypes.string.isRequired,
-    children: PropTypes.node
+    redirectTo: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        pathname: PropTypes.string,
+        search: PropTypes.string,
+      }),
+    ]).isRequired,
+    children: PropTypes.node,
   };
   static defaultProps = {
     onSuccess: () => {},
-    onFailure: () => {}
+    onFailure: () => {},
   };
   state = {
-    loading: true
+    loading: true,
   };
   componentDidMount() {
     const { onSuccess } = this.props;
