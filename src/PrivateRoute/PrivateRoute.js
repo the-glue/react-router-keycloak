@@ -6,18 +6,22 @@ import { isAuthenticated } from '../keycloak/keycloak';
 
 const propTypes = {
   component: PropTypes.any,
-  location: PropTypes.shape({
-    pathname: PropTypes.string
-  })
+  location: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      pathname: PropTypes.string,
+      search: PropTypes.string,
+    }),
+  ]),
 };
 
 export default function PrivateRoute({ component: Component, ...rest }) {
   return (
     <KeycloakContext.Consumer>
-      {context => (
+      {(context) => (
         <Route
           {...rest}
-          render={props => {
+          render={(props) => {
             if (isAuthenticated()) {
               return <Component {...props} />;
             } else {
@@ -25,7 +29,7 @@ export default function PrivateRoute({ component: Component, ...rest }) {
                 <Redirect
                   to={{
                     pathname: context.loginPath,
-                    state: { redirectTo: props.location.pathname }
+                    state: { redirectTo: props.location },
                   }}
                 />
               );

@@ -7,21 +7,33 @@ class Login extends React.Component {
   static propTypes = {
     onSuccess: PropTypes.func,
     onFailure: PropTypes.func,
-    redirectTo: PropTypes.string.isRequired,
+    redirectTo: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        pathname: PropTypes.string,
+        search: PropTypes.string,
+      }),
+    ]),
     location: PropTypes.shape({
       state: PropTypes.shape({
-        redirectTo: PropTypes.string
-      })
+        redirectTo: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.shape({
+            pathname: PropTypes.string,
+            search: PropTypes.string,
+          }),
+        ]),
+      }),
     }),
-    children: PropTypes.node
+    children: PropTypes.node,
   };
   static defaultProps = {
     onSuccess: () => {},
-    onFailure: e => console.error(e)
+    onFailure: (e) => console.error(e),
   };
 
   state = {
-    loading: true
+    loading: true,
   };
 
   componentDidMount() {
@@ -29,7 +41,7 @@ class Login extends React.Component {
     const keycloak = getKeycloak();
     keycloak
       .init({ checkLoginIframe: false })
-      .then(authenticated => {
+      .then((authenticated) => {
         if (authenticated) {
           // Update the state to re-render so it will redirect to the previous private route
           this.setState({ loading: false });
