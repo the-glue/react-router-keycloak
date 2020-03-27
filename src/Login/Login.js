@@ -50,7 +50,10 @@ class Login extends React.Component {
         } else {
           if (location.state && location.state.redirectTo) {
             // Store the current path in session storage before leaving the application to log in on keycloak server
-            window.sessionStorage.setItem('keycloak-react-router:redirectTo', location.state.redirectTo);
+            window.sessionStorage.setItem(
+              'keycloak-react-router:redirectTo',
+              JSON.stringify(location.state.redirectTo)
+            );
           }
           // Redirect to keycloak login page
           keycloak.login();
@@ -72,7 +75,11 @@ class Login extends React.Component {
       return <div>Connecting...</div>;
     }
     // redirect to the assigned path in the session storage or fallback to the one provided as props
-    return <Redirect to={window.sessionStorage.getItem('keycloak-react-router:redirectTo') || redirectTo} />;
+    return (
+      <Redirect
+        to={JSON.parse(window.sessionStorage.getItem('keycloak-react-router:redirectTo') || 'null') || redirectTo}
+      />
+    );
   }
 }
 
