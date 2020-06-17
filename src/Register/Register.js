@@ -64,6 +64,7 @@ class Register extends React.Component {
         }
       })
       .catch(() => {
+        this.setState({ loading: false });
         onFailure('There was an error with initializing keycloak, please check your credentials');
       });
   }
