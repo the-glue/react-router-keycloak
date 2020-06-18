@@ -23,7 +23,7 @@ export function configureKeycloak(keycloakUrl, realm, clientId) {
     keycloak = new Keycloak({
       url: `${keycloakUrl}/auth/`,
       realm: realm,
-      clientId: clientId
+      clientId: clientId,
     });
   }
 }
@@ -44,13 +44,18 @@ export function getKeycloak() {
  * @param {Function} onRefresh Callback function called on refresh success
  * @param {Number} [minValidity=30] If the token expires within `minValidity` seconds, the token is refreshed.
  */
-export const updateToken = (onRefresh, minValidity = 30) => {
+export const updateToken = (onRefresh, minValidity = 30, loginPath) => {
   const keycloak = getKeycloak();
-  keycloak.updateToken(minValidity).then(refreshed => {
-    if (refreshed) {
-      onRefresh(keycloak.token);
-    }
-  });
+  keycloak
+    .updateToken(minValidity)
+    .then((refreshed) => {
+      if (refreshed) {
+        onRefresh(keycloak.token);
+      }
+    })
+    .catch(function () {
+      window.location.replace(loginPath);
+    });
 };
 
 /**
