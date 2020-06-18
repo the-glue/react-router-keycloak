@@ -9,11 +9,11 @@ const propTypes = {
   onRefresh: PropTypes.func.isRequired,
   minValidity: PropTypes.number,
   refreshRate: PropTypes.number,
-  children: PropTypes.any
+  children: PropTypes.any,
 };
 const defaultProps = {
   minValidity: 30,
-  refreshRate: 10
+  refreshRate: 10,
 };
 
 export default function KeycloakProvider(props) {
@@ -21,7 +21,7 @@ export default function KeycloakProvider(props) {
   useEffect(() => {
     const refreshInterval = setInterval(() => {
       if (isAuthenticated()) {
-        updateToken(onRefresh, minValidity);
+        updateToken(onRefresh, minValidity, props.loginPath);
       }
     }, refreshRate * 1000);
     return () => {
